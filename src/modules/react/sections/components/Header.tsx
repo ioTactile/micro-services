@@ -1,13 +1,9 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-import { checkUser } from "@mm/lib/checkUser";
 
-const Header = async () => {
-  const user = await checkUser();
-  console.log(user);
-
+const Header = () => {
   return (
-    <div className="flex justify-between items-center p-4">
-      <div>Micro-services</div>
+    <div className="flex justify-between items-center p-4 bg-primary text-primary-foreground">
+      <div className="text-2xl font-bold">Micro-services</div>
 
       <div>
         <SignedOut>
