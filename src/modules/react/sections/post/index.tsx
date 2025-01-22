@@ -54,7 +54,7 @@ const Post = () => {
 
         <p className="text-sm">{post?.content}</p>
 
-        <PostCommentForm postId={post.id} parentId={null} />
+        <PostCommentForm postId={post.id} replyToId={null} />
       </div>
 
       {postComments && postComments.length > 0 && (

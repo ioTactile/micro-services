@@ -35,12 +35,12 @@ const PostCommentCard = ({ postComment, depth }: PostCommentCardProps) => {
         </summary>
 
         <p className="text-sm ml-10">
-          {postComment.parent && (
+          {postComment.replyToId && (
             <Link
-              href={`/user/${postComment.parent.author.id}`}
+              href={`/user/${postComment.author.id}`}
               className=" hover:underline font-semibold"
             >
-              {postComment.parent.author.name + " "}
+              {postComment.author.name + " "}
             </Link>
           )}
           {postComment.content}
@@ -70,7 +70,7 @@ const PostCommentCard = ({ postComment, depth }: PostCommentCardProps) => {
         {isExpanded && (
           <PostCommentForm
             postId={postComment.postId}
-            parentId={postComment.id}
+            replyToId={postComment.replyToId}
             onCancel={() => setIsExpanded(false)}
             isExpandedFromParent={isExpanded}
           />

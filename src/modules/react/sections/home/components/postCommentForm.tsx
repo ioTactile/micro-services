@@ -11,14 +11,14 @@ import TextArea from "@mm/modules/react/sections/components/inputs/textArea";
 
 interface PostCommentFormProps {
   postId: string;
-  parentId: string | null;
+  replyToId: string | null;
   onCancel?: () => void;
   isExpandedFromParent?: boolean;
 }
 
 const PostCommentForm = ({
   postId,
-  parentId,
+  replyToId,
   onCancel,
   isExpandedFromParent,
 }: PostCommentFormProps) => {
@@ -44,7 +44,7 @@ const PostCommentForm = ({
       content: data.content,
       authorId: user.id,
       postId: postId,
-      parentId: parentId,
+      replyToId: replyToId,
     };
 
     createPostCommentMutation.mutate(postComment);

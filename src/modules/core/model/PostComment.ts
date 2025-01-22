@@ -10,7 +10,7 @@ export type CreatePostCommentFormData = z.infer<typeof createPostCommentSchema>;
 export interface CreatePostCommentDto extends CreatePostCommentFormData {
   postId: string;
   authorId: string;
-  parentId: string | null;
+  replyToId: string | null;
 }
 
 export interface ExtendedPostComment extends PostComment {
@@ -20,11 +20,4 @@ export interface ExtendedPostComment extends PostComment {
     imageUrl: string;
   };
   replies?: Omit<ExtendedPostComment, "replies">[];
-  parent?: {
-    id: string;
-    author: {
-      id: string;
-      name: string;
-    };
-  };
 }
