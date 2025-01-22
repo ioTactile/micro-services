@@ -22,6 +22,29 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   posts     Post[]
+  comments  PostComment[]
+}
+
+model PostComment {
+  id        String      @id @default(cuid())
+  content   String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  
+  // Relations avec Post et User
+  postId    String
+  post      Post        @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User        @relation(fields: [authorId], references: [clerkId], onDelete: Cascade)
+  
+  // Gestion des commentaires imbriqués
+  replyToId  String?
+  replyTo    PostComment?    @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade)
+  replies   PostComment[]   @relation("ReplyTo")
+  
+  @@index([postId])
+  @@index([authorId])
+  @@index([replyToId])
 }
 
 model Post {
@@ -30,8 +53,13 @@ model Post {
   content   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
   // Relations
   authorId  String
   author    User     @relation(fields: [authorId], references: [clerkId], onDelete: Cascade)
+  comments  PostComment[]
+
   @@index([authorId])
 }
+
+

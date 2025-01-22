@@ -1,4 +1,4 @@
-import { ApiPostGateway } from "@mm/modules/core/gateway-infra/api.post-gateway";
+import { postGateway } from "@mm/modules/core/gateway-infra/api.post-gateway";
 import HomePage from "@mm/modules/react/pages/HomePage";
 import {
   dehydrate,
@@ -7,17 +7,19 @@ import {
 } from "@tanstack/react-query";
 
 const getPosts = async () => {
-  const postGateway = new ApiPostGateway();
   const response = await postGateway.getPosts();
   return response;
 };
 
-export default function Home() {
+export default async function Home() {
   const queryClient = new QueryClient();
 
-  queryClient.prefetchQuery({
+  const initialPosts = await getPosts();
+
+  await queryClient.prefetchQuery({
     queryKey: ["posts"],
     queryFn: getPosts,
+    initialData: initialPosts,
   });
 
   return (
