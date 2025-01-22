@@ -1,4 +1,4 @@
-import { PostComment } from "@prisma/client";
+import { PostComment, User } from "@prisma/client";
 import { z } from "zod";
 
 export const createPostCommentSchema = z.object({
@@ -11,13 +11,11 @@ export interface CreatePostCommentDto extends CreatePostCommentFormData {
   postId: string;
   authorId: string;
   replyToId: string | null;
+  replyToUserId: string | null;
 }
 
 export interface ExtendedPostComment extends PostComment {
-  author: {
-    id: string;
-    name: string;
-    imageUrl: string;
-  };
+  author: User;
   replies?: Omit<ExtendedPostComment, "replies">[];
+  replyToUser: User | null;
 }

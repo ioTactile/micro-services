@@ -1,30 +1,19 @@
 import { prisma } from "@mm/lib/prisma";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(
+  _: Request,
+  { params }: { params: { slug: string } }
+) {
   try {
-    const url = new URL(request.url);
-    const id = url.pathname.split("/").pop();
-
     const postComments = await prisma.postComment.findMany({
-      where: { postId: id, replyToId: null },
+      where: { postId: params.slug, replyToId: null },
       include: {
-        author: {
-          select: {
-            id: true,
-            name: true,
-            imageUrl: true,
-          },
-        },
+        author: true,
         replies: {
           include: {
-            author: {
-              select: {
-                id: true,
-                name: true,
-                imageUrl: true,
-              },
-            },
+            author: true,
+            replyToUser: true,
           },
         },
       },
@@ -32,6 +21,7 @@ export async function GET(request: Request) {
         createdAt: "desc",
       },
     });
+
     return NextResponse.json(postComments, { status: 200 });
   } catch (error) {
     return NextResponse.json(
@@ -43,7 +33,8 @@ export async function GET(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const { postId, content, authorId, replyToId } = await request.json();
+    const { postId, content, authorId, replyToId, replyToUserId } =
+      await request.json();
 
     const reply = await prisma.postComment.create({
       data: {
@@ -51,8 +42,11 @@ export async function PATCH(request: Request) {
         authorId,
         postId,
         replyToId,
+        replyToUserId,
       },
     });
+
+    console.log(reply);
 
     return NextResponse.json(
       { message: "Réponse au commentaire créée", comment: reply },

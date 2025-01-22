@@ -26,8 +26,8 @@ const PostCommentCard = ({ postComment, depth }: PostCommentCardProps) => {
       <div className="flex flex-col gap-2">
         <summary className="flex items-center gap-2">
           <Avatar
-            src={postComment.author.imageUrl}
-            alt={postComment.author.name}
+            src={postComment.author.imageUrl ?? ""}
+            alt={postComment.author.name ?? ""}
           />
           <div className="text-sm truncate font-medium">
             {postComment.author.name}
@@ -35,13 +35,15 @@ const PostCommentCard = ({ postComment, depth }: PostCommentCardProps) => {
         </summary>
 
         <p className="text-sm ml-10">
-          {postComment.replyToId && (
-            <Link
-              href={`/user/${postComment.author.id}`}
-              className=" hover:underline font-semibold"
-            >
-              {postComment.author.name + " "}
-            </Link>
+          {postComment.replyToUserId && (
+            <>
+              <Link
+                href={`/user/${postComment.replyToUser?.id}`}
+                className=" hover:underline font-semibold"
+              >
+                {postComment.replyToUser?.name}
+              </Link>{" "}
+            </>
           )}
           {postComment.content}
         </p>
@@ -70,9 +72,10 @@ const PostCommentCard = ({ postComment, depth }: PostCommentCardProps) => {
         {isExpanded && (
           <PostCommentForm
             postId={postComment.postId}
-            replyToId={postComment.replyToId}
+            replyToId={postComment.replyToId ?? postComment.id}
             onCancel={() => setIsExpanded(false)}
             isExpandedFromParent={isExpanded}
+            replyToUserId={postComment.authorId}
           />
         )}
       </div>

@@ -23,6 +23,7 @@ model User {
   updatedAt DateTime @updatedAt
   posts     Post[]
   comments  PostComment[]
+  receivedReplies PostComment[] @relation("ReplyToUser")
 }
 
 model PostComment {
@@ -41,10 +42,15 @@ model PostComment {
   replyToId  String?
   replyTo    PostComment?    @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade)
   replies   PostComment[]   @relation("ReplyTo")
+
+  // Ajout de la relation avec l'utilisateur qui répond
+  replyToUserId  String?
+  replyToUser    User?        @relation("ReplyToUser", fields: [replyToUserId], references: [clerkId], onDelete: Cascade)
   
   @@index([postId])
   @@index([authorId])
   @@index([replyToId])
+  @@index([replyToUserId])
 }
 
 model Post {

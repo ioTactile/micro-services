@@ -1,4 +1,4 @@
-import { Post, PostComment } from "@prisma/client";
+import { Post, PostComment, User } from "@prisma/client";
 import { z } from "zod";
 
 export const createPostSchema = z.object({
@@ -13,9 +13,6 @@ export interface CreatePostDto extends CreatePostFormData {
 }
 
 export interface ExtendedPost extends Post {
-  author: {
-    name: string;
-    imageUrl: string;
-  };
-  comments?: PostComment[];
+  author: User;
+  comments: PostComment[];
 }

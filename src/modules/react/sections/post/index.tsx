@@ -41,7 +41,9 @@ const Post = () => {
         </Button>
 
         <div className="flex items-center gap-1 text-xs text-muted-foreground">
-          <span className="font-medium">{getCapitalize(post.author.name)}</span>
+          <span className="font-medium">
+            {getCapitalize(post.author.name ?? "")}
+          </span>
 
           <span>•</span>
 

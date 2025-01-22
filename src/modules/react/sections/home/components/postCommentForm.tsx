@@ -11,6 +11,7 @@ import TextArea from "@mm/modules/react/sections/components/inputs/textArea";
 
 interface PostCommentFormProps {
   postId: string;
+  replyToUserId: string | null;
   replyToId: string | null;
   onCancel?: () => void;
   isExpandedFromParent?: boolean;
@@ -18,6 +19,7 @@ interface PostCommentFormProps {
 
 const PostCommentForm = ({
   postId,
+  replyToUserId,
   replyToId,
   onCancel,
   isExpandedFromParent,
@@ -45,6 +47,7 @@ const PostCommentForm = ({
       authorId: user.id,
       postId: postId,
       replyToId: replyToId,
+      replyToUserId: replyToUserId,
     };
 
     createPostCommentMutation.mutate(postComment);
