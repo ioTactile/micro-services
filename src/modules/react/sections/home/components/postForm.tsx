@@ -8,7 +8,7 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@clerk/nextjs";
-import { useCreatePost } from "@mm/modules/core/mutations/post";
+import { useCreatePost } from "@mm/modules/react/mutations/useCreatePost";
 
 const PostForm = () => {
   const {

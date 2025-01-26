@@ -5,7 +5,7 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@clerk/nextjs";
-import { useCreatePostComment } from "@mm/modules/core/mutations/post-comment";
+import { useCreatePostComment } from "@mm/modules/react/mutations/useCreatePostComment";
 import { useEffect, useState } from "react";
 import TextArea from "@mm/modules/react/sections/components/inputs/textArea";
 
