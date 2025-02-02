@@ -8,11 +8,13 @@ export function useCreateTalkComment() {
   return useMutation({
     mutationFn: (talkComment: CreateTalkCommentDto) =>
       talkGateway.createTalkComment(talkComment),
-    onSettled: async (_, error) => {
+    onSettled: async (_data, error, variables) => {
       if (error) {
         console.error(error);
       } else {
-        await queryClient.invalidateQueries({ queryKey: ["talk-comments"] });
+        await queryClient.invalidateQueries({
+          queryKey: ["talk", variables.talkId],
+        });
       }
     },
   });

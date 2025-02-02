@@ -10,7 +10,17 @@ export async function GET(_request: Request, { params }: PageProps) {
       where: { id },
       include: {
         author: true,
-        talkComments: true,
+        talkComments: {
+          include: {
+            replies: {
+              include: {
+                author: true,
+                replyToUser: true,
+              },
+            },
+            author: true,
+          },
+        },
       },
     });
     return NextResponse.json(talk, { status: 200 });

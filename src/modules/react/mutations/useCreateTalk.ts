@@ -7,7 +7,7 @@ export function useCreateTalk() {
 
   return useMutation({
     mutationFn: (talk: CreateTalkDto) => talkGateway.createTalk(talk),
-    onSettled: async (_, error) => {
+    onSettled: async (_data, error) => {
       if (error) {
         console.error(error);
       } else {

@@ -13,7 +13,7 @@ export default async function Talk({ params }: PageProps) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["talk-comments", id],
+    queryKey: ["talk", id],
     queryFn: () => getTalkWithComments(id),
   });
 

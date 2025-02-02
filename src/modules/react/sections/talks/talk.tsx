@@ -1,7 +1,6 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import useTalkComments from "@/modules/react/hooks/useTalkComments";
 import { Button } from "@/app/_components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { getTimeBetweenDateAndNow } from "@/modules/core/utils/date";
@@ -10,11 +9,12 @@ import TalkCommentForm from "@/modules/react/sections/talks/_components/talk-com
 import TalkCommentCard from "@/modules/react/sections/talks/_components/talk-comment-card";
 import Avatar from "@/modules/react/sections/_components/avatar";
 import Link from "next/link";
+import useTalkWithComments from "@/modules/react/hooks/useTalkComments";
 
 const Talk = () => {
   const { id } = useParams();
 
-  const { data: talkWithComments } = useTalkComments(id as string);
+  const { data: talkWithComments } = useTalkWithComments(id as string);
 
   if (!talkWithComments) return null;
 
@@ -57,19 +57,20 @@ const Talk = () => {
         />
       </div>
 
-      {talkWithComments.comments && talkWithComments.comments.length > 0 && (
-        <div className="flex flex-col gap-2 mt-6">
-          {talkWithComments.comments
-            .filter((comment) => !comment.replyToId)
-            .map((comment) => (
-              <TalkCommentCard
-                key={comment.id}
-                talkComment={comment}
-                depth={0}
-              />
-            ))}
-        </div>
-      )}
+      {talkWithComments.talkComments &&
+        talkWithComments.talkComments.length > 0 && (
+          <div className="flex flex-col gap-2 mt-6">
+            {talkWithComments.talkComments
+              .filter((comment) => !comment.replyToId)
+              .map((comment) => (
+                <TalkCommentCard
+                  key={comment.id}
+                  talkComment={comment}
+                  depth={0}
+                />
+              ))}
+          </div>
+        )}
     </div>
   );
 };
