@@ -1,0 +1,27 @@
+model TalkComment {
+  id        String      @id @default(cuid())
+  content   String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  
+  // Relations avec Talk et User
+  talkId    String
+  talk      Talk        @relation(fields: [talkId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User        @relation(fields: [authorId], references: [clerkId], onDelete: Cascade)
+  
+
+  // Gestion des commentaires imbriqués
+  replyToId  String?
+  replyTo    TalkComment?    @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade)
+  replies   TalkComment[]   @relation("ReplyTo")
+
+  // Ajout de la relation avec l'utilisateur qui répond
+  replyToUserId  String?
+  replyToUser    User?        @relation("ReplyToUser", fields: [replyToUserId], references: [clerkId], onDelete: Cascade)
+  
+  @@index([talkId])
+  @@index([authorId])
+  @@index([replyToId])
+  @@index([replyToUserId])
+}

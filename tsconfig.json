@@ -19,9 +19,7 @@
       }
     ],
     "paths": {
-      "@mm/*": ["./src/*"],
-      "@home/*": ["./src/modules/react/sections/home/*"],
-      "@components/*": ["./src/modules/react/sections/components/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

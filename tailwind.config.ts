@@ -11,6 +11,9 @@ export default {
   ],
   theme: {
     extend: {
+      minHeight: {
+        "screen-minus-header": `calc(100vh - var(--header-height))`,
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

@@ -1,5 +1,5 @@
-import { IPostGateway } from "@mm/modules/core/gateway/post.gateway";
+import { ITalkGateway } from "@/modules/core/gateway/talk.gateway";
 
 export type Dependencies = {
-  postGateway: IPostGateway;
+  talkGateway: ITalkGateway;
 };
