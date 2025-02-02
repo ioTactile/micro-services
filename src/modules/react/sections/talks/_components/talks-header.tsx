@@ -11,7 +11,7 @@ const TalksHeader = () => {
         alt="Talks Header"
         width={1920}
         height={1080}
-        className="w-full h-16 object-cover rounded-lg"
+        className="w-full h-16 object-cover rounded-xl"
       />
 
       <div className="flex justify-between items-center mt-2 px-2">

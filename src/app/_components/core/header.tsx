@@ -34,7 +34,7 @@ const mainMenuItems: NavigationItem<string>[] = [
 const Header = () => {
   return (
     <header className="border-b">
-      <div className="container flex h-16 items-center justify-between mx-auto">
+      <div className="container flex h-16 items-center justify-between mx-auto px-4 sm:px-0">
         <div className="flex items-center gap-8">
           <AppLogo />
 
@@ -91,7 +91,7 @@ const Header = () => {
                   <SheetClose asChild key={index}>
                     <Link
                       href={item.url}
-                      className="flex items-center rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+                      className="flex items-center rounded-xl px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                     >
                       {item.icon && <item.icon className="mr-3 h-5 w-5" />}
 

@@ -30,7 +30,7 @@ const TalkCard = ({ talk }: TalkCardProps) => {
 
   return (
     <div
-      className="flex flex-col gap-2 bg-card rounded-lg  px-4 py-1 my-1 cursor-pointer hover:bg-accent transition-all duration-300"
+      className="flex flex-col gap-2 bg-card rounded-xl  px-4 py-1 my-1 cursor-pointer hover:bg-accent transition-all duration-300"
       onClick={() => router.push(`/talks/${talk.id}/${talk.title}`)}
     >
       <div className="flex items-center gap-1 text-xs">

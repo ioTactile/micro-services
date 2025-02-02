@@ -1,13 +1,21 @@
-import { SubmitHandler } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useUser } from "@clerk/nextjs";
 import { useCreateTalkComment } from "@/modules/react/mutations/useCreateTalkComment";
 import * as React from "react";
-import TextArea from "@/modules/react/sections/_components/inputs/text-area";
-import { useZodForm } from "@/app/_components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/app/_components/ui/form";
 import {
   CreateTalkCommentInputs,
   createTalkCommentSchema,
 } from "@/modules/react/sections/talks/_schemas/create-talk-comment";
+import { Textarea } from "@/app/_components/ui/textarea";
+import { Button } from "@/app/_components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface TalkCommentFormProps {
   talkId: string;
@@ -24,17 +32,21 @@ const TalkCommentForm = ({
   onCancel,
   isExpandedFromParent,
 }: TalkCommentFormProps) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { isValid },
-    reset,
-  } = useZodForm({
-    schema: createTalkCommentSchema,
+  const form = useForm<CreateTalkCommentInputs>({
+    resolver: zodResolver(createTalkCommentSchema),
     defaultValues: {
       content: "",
     },
   });
+
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid, errors },
+    reset,
+  } = form;
+
+  console.log(errors);
 
   const { user } = useUser();
 
@@ -66,16 +78,64 @@ const TalkCommentForm = ({
     if (isExpandedFromParent) setIsExpanded(true);
   }, [isExpandedFromParent]);
 
+  function handleClick() {
+    if (onCancel) onCancel();
+    setIsExpanded(false);
+  }
+
   return (
-    <form onSubmit={handleSubmit(handleCreateTalkCommentSubmit)}>
-      <TextArea
-        register={register}
-        setIsExpanded={setIsExpanded}
-        isValid={isValid}
-        isExpanded={isExpanded}
-        onCancel={onCancel}
-      />
-    </form>
+    <Form {...form}>
+      <form onSubmit={handleSubmit(handleCreateTalkCommentSubmit)}>
+        {isExpanded ? (
+          <div className="border rounded-xl overflow-hidden">
+            <FormField
+              control={control}
+              name="content"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      autoFocus
+                      className="border-none focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
+                    />
+                  </FormControl>
+                  <div className="flex justify-between items-center bg-primary-foreground p-2 border-t px-2">
+                    <FormMessage />
+                    <div className="space-x-2 ml-auto">
+                      <Button
+                        onClick={handleClick}
+                        variant="ghost"
+                        size="sm"
+                        className="rounded-full"
+                      >
+                        Annuler
+                      </Button>
+                      <Button
+                        type="submit"
+                        disabled={!isValid}
+                        size="sm"
+                        className="rounded-full"
+                      >
+                        Commentaire
+                      </Button>
+                    </div>
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
+        ) : (
+          <Button
+            onClick={() => setIsExpanded(true)}
+            variant="outline"
+            className="w-full shadow-none rounded-full justify-start"
+          >
+            Ajouter un commentaire
+          </Button>
+        )}
+      </form>
+    </Form>
   );
 };
 

@@ -3,17 +3,15 @@
 import { useParams } from "next/navigation";
 import useTalkComments from "@/modules/react/hooks/useTalkComments";
 import { Button } from "@/app/_components/ui/button";
-import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { getTimeBetweenDateAndNow } from "@/modules/core/utils/date";
 import { getCapitalize } from "@/modules/core/utils/string";
 import TalkCommentForm from "@/modules/react/sections/talks/_components/talk-comment-form";
 import TalkCommentCard from "@/modules/react/sections/talks/_components/talk-comment-card";
-import { Suspense } from "react";
 import Avatar from "@/modules/react/sections/_components/avatar";
+import Link from "next/link";
 
 const Talk = () => {
-  const router = useRouter();
   const { id } = useParams();
 
   const { data: talkWithComments } = useTalkComments(id as string);
@@ -21,16 +19,12 @@ const Talk = () => {
   if (!talkWithComments) return null;
 
   return (
-    <div className="p-4">
+    <div className="flex flex-col gap-2 container mx-auto mt-2 px-4 sm:px-0">
       <div className="flex items-center gap-2">
-        <Button
-          variant="destructive"
-          onClick={() => {
-            router.push("/");
-          }}
-          className="rounded-full w-8 h-8 "
-        >
-          <ArrowLeft />
+        <Button variant="destructive" className="rounded-full w-8 h-8" asChild>
+          <Link href="/talks">
+            <ArrowLeft />
+          </Link>
         </Button>
 
         <Avatar
@@ -56,17 +50,15 @@ const Talk = () => {
 
         <p className="text-sm">{talkWithComments?.content}</p>
 
-        <Suspense>
-          <TalkCommentForm
-            talkId={talkWithComments.id}
-            replyToId={null}
-            replyToUserId={null}
-          />
-        </Suspense>
+        <TalkCommentForm
+          talkId={talkWithComments.id}
+          replyToId={null}
+          replyToUserId={null}
+        />
       </div>
 
       {talkWithComments.comments && talkWithComments.comments.length > 0 && (
-        <div className="flex flex-col gap-2 mt-8">
+        <div className="flex flex-col gap-2 mt-6">
           {talkWithComments.comments
             .filter((comment) => !comment.replyToId)
             .map((comment) => (

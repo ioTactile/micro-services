@@ -8,7 +8,7 @@ import { useUser } from "@clerk/nextjs";
 import { useCreateTalk } from "@/modules/react/mutations/useCreateTalk";
 import {
   createTalkSchema,
-  CreateTalkFormData,
+  CreateTalkInputs,
 } from "@/modules/react/sections/talks/_schemas/create-talk";
 import { useEffect, useState } from "react";
 import { TALK_TITLE_MAX_LENGTH } from "@/app/_constants/app";
@@ -21,7 +21,7 @@ import {
 } from "@/app/_components/ui/form";
 
 const TalkForm = () => {
-  const form = useForm<CreateTalkFormData>({
+  const form = useForm<CreateTalkInputs>({
     resolver: zodResolver(createTalkSchema),
     defaultValues: {
       title: "",
@@ -42,7 +42,7 @@ const TalkForm = () => {
 
   const createTalkMutation = useCreateTalk();
 
-  const handleCreateTalkSubmit: SubmitHandler<CreateTalkFormData> = (data) => {
+  const handleCreateTalkSubmit: SubmitHandler<CreateTalkInputs> = (data) => {
     if (!user) return;
 
     const talk = {
@@ -78,7 +78,7 @@ const TalkForm = () => {
                   placeholder="Titre*"
                   {...field}
                   maxLength={TALK_TITLE_MAX_LENGTH}
-                  className="resize-none"
+                  className="resize-none shadow-none"
                   rows={1}
                 />
               </FormControl>
@@ -102,6 +102,7 @@ const TalkForm = () => {
                   placeholder="Corps"
                   {...field}
                   value={field.value || ""}
+                  className="shadow-none"
                 />
               </FormControl>
               <FormMessage />
