@@ -1,9 +1,11 @@
 import prisma from "@/prisma";
-import { PageProps } from "@/types/pages-props";
 import { NextResponse } from "next/server";
 
-export async function GET(_request: Request, { params }: PageProps) {
-  const { id } = await params;
+export async function GET(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const id = (await params).id;
 
   try {
     const talk = await prisma.talk.findUnique({
