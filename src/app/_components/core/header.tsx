@@ -5,7 +5,6 @@ import { Library, Menu, MessageSquareText } from "lucide-react";
 import AppLogo from "@/app/_components/core/app-logo";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { ThemeSwitcherDropdown } from "@/app/_components/core/theme-switcher-dropdown";
-
 import Link from "next/link";
 import {
   NavigationMenu,
@@ -27,7 +26,7 @@ import { Button } from "@/app/_components/ui/button";
 import { NavigationItem } from "@/types/navigation-item";
 
 const mainMenuItems: NavigationItem<string>[] = [
-  { title: "Talks", url: "/talks", icon: MessageSquareText },
+  { title: "Discussions", url: "/talks", icon: MessageSquareText },
   { title: "Blog", url: "/blog", icon: Library },
 ];
 
@@ -45,7 +44,10 @@ const Header = () => {
                 <NavigationMenuItem key={index}>
                   <Link href={item.url} legacyBehavior passHref>
                     <NavigationMenuLink
-                      className={cn(navigationMenuTriggerStyle(), "")}
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "rounded-full"
+                      )}
                     >
                       {item.title}
                     </NavigationMenuLink>
@@ -103,15 +105,17 @@ const Header = () => {
 
               <Separator />
 
-              <div className="flex">
-                <SignedOut>
-                  <SignInButton />
-                </SignedOut>
+              <SheetClose asChild>
+                <div className="px-4 py-2">
+                  <SignedOut>
+                    <SignInButton />
+                  </SignedOut>
 
-                <SignedIn>
-                  <UserButton />
-                </SignedIn>
-              </div>
+                  <SignedIn>
+                    <UserButton />
+                  </SignedIn>
+                </div>
+              </SheetClose>
             </nav>
           </SheetContent>
         </Sheet>

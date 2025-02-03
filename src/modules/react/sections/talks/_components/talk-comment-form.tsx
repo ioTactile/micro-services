@@ -100,7 +100,7 @@ const TalkCommentForm = ({
                       className="border-none focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
                     />
                   </FormControl>
-                  <div className="flex justify-between items-center bg-primary-foreground p-2 border-t px-2">
+                  <div className="flex justify-between items-center bg-primary/20 p-2 border-t px-2">
                     <FormMessage />
                     <div className="space-x-2 ml-auto">
                       <Button

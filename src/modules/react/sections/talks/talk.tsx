@@ -21,7 +21,7 @@ const Talk = () => {
   return (
     <div className="flex flex-col gap-2 container mx-auto mt-2 px-4 sm:px-0">
       <div className="flex items-center gap-2">
-        <Button variant="destructive" className="rounded-full w-8 h-8" asChild>
+        <Button className="rounded-full w-8 h-8" asChild>
           <Link href="/talks">
             <ArrowLeft />
           </Link>

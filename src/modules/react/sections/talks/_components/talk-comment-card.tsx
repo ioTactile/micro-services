@@ -63,7 +63,12 @@ const TalkCommentCard = ({ talkComment, depth }: TalkCommentCardProps) => {
             </Button>
           )}
 
-          <Button variant="ghost" size="sm" onClick={() => setIsExpanded(true)}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="rounded-full"
+            onClick={() => setIsExpanded(true)}
+          >
             <MessageCircle className="w-4 h-4" />
             Répondre
           </Button>
