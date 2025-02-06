@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useUser } from "@clerk/nextjs";
-import { useCreateTalkComment } from "@/modules/react/mutations/useCreateTalkComment";
+import { useCreateTalkComment } from "@/modules/core/mutations/useCreateTalkComment";
 import * as React from "react";
 import {
   Form,

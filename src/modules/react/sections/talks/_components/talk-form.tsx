@@ -5,7 +5,7 @@ import { Button } from "@/app/_components/ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@clerk/nextjs";
-import { useCreateTalk } from "@/modules/react/mutations/useCreateTalk";
+import { useCreateTalk } from "@/modules/core/mutations/useCreateTalk";
 import {
   createTalkSchema,
   CreateTalkInputs,

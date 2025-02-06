@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import useArticle from "@/modules/react/hooks/use-article";
+import useArticle from "@/modules/core/hooks/use-article";
 
 const Article = () => {
   const { slug } = useParams();

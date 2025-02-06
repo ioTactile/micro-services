@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Library, Menu, MessageSquareText } from "lucide-react";
+import { Library, Menu, MessageSquareText, Settings } from "lucide-react";
 import AppLogo from "@/app/_components/core/app-logo";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { ThemeSwitcherDropdown } from "@/app/_components/core/theme-switcher-dropdown";
@@ -13,7 +13,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/app/_components/ui/navigation-menu";
-import { Separator } from "../ui/separator";
+import { Separator } from "@/app/_components/ui/separator";
 import {
   Sheet,
   SheetClose,
@@ -28,6 +28,7 @@ import { NavigationItem } from "@/types/navigation-item";
 const mainMenuItems: NavigationItem<string>[] = [
   { title: "Discussions", url: "/talks", icon: MessageSquareText },
   { title: "Blog", url: "/blog", icon: Library },
+  { title: "Admin", url: "/admin", icon: Settings },
 ];
 
 const Header = () => {

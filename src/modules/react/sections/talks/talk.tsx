@@ -9,7 +9,7 @@ import TalkCommentForm from "@/modules/react/sections/talks/_components/talk-com
 import TalkCommentCard from "@/modules/react/sections/talks/_components/talk-comment-card";
 import Avatar from "@/modules/react/sections/_components/avatar";
 import Link from "next/link";
-import useTalkWithComments from "@/modules/react/hooks/use-talk-with-comments";
+import useTalkWithComments from "@/modules/core/hooks/use-talk-with-comments";
 
 const Talk = () => {
   const { id } = useParams();

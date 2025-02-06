@@ -34,6 +34,14 @@ body {
     --chart-5: 85 30% 55%; /* Vert olive */
     --radius: 0.5rem;
     --header-height: 65px;
+    --sidebar-background: 40 33% 98%; /* Même que background */
+    --sidebar-foreground: 30 15% 15%; /* Même que foreground */
+    --sidebar-primary: 124 30% 35%; /* Vert forêt - même que primary */
+    --sidebar-primary-foreground: 40 33% 98%; /* Beige clair */
+    --sidebar-accent: 26 40% 80%; /* Beige sable - même que secondary */
+    --sidebar-accent-foreground: 30 15% 15%; /* Brun foncé */
+    --sidebar-border: 30 15% 85%; /* Même que border */
+    --sidebar-ring: 124 30% 35%; /* Même que ring */
   }
 
   .dark {
@@ -61,6 +69,14 @@ body {
     --chart-3: 15 25% 35%; /* Roche sombre */
     --chart-4: 45 40% 45%; /* Sable foncé */
     --chart-5: 85 25% 40%; /* Vert olive foncé */
+    --sidebar-background: 30 15% 10%; /* Même que background */
+    --sidebar-foreground: 40 33% 98%; /* Même que foreground */
+    --sidebar-primary: 124 25% 45%; /* Vert forêt - même que primary */
+    --sidebar-primary-foreground: 40 33% 98%; /* Beige clair */
+    --sidebar-accent: 26 20% 25%; /* Brun foncé - même que secondary */
+    --sidebar-accent-foreground: 40 33% 98%; /* Beige clair */
+    --sidebar-border: 30 15% 25%; /* Même que border */
+    --sidebar-ring: 124 25% 45%; /* Même que ring */
   }
 }
 

@@ -21,5 +21,11 @@ export async function POST(request: Request) {
       name,
     },
   });
-  return NextResponse.json(tag, { status: 201 });
+  return NextResponse.json(
+    {
+      message: "Tag créé avec succès",
+      tag,
+    },
+    { status: 201 }
+  );
 }

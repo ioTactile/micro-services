@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import useTalks from "@/modules/react/hooks/use-talks";
+import useTalks from "@/modules/core/hooks/use-talks";
 import TalkCard from "@/modules/react/sections/talks/_components/talk-card";
 import { Separator } from "@/app/_components/ui/separator";
 
