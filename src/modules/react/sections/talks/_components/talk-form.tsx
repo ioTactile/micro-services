@@ -25,7 +25,7 @@ const TalkForm = () => {
     resolver: zodResolver(createTalkSchema),
     defaultValues: {
       title: "",
-      content: "",
+      content: null,
     },
     mode: "onChange",
   });

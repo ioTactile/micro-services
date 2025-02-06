@@ -7,7 +7,7 @@ export const createArticleSchema = z.object({
     .min(1, "Veuillez remplir ce champ")
     .max(TALK_TITLE_MAX_LENGTH, "300 caractères maximum"),
   content: z.string().min(1, "Veuillez remplir ce champ"),
-  imageUrl: z.string().nullable(),
+  imageUrl: z.string().url().nullable(),
   imageName: z.string().nullable(),
   excerpt: z.string().nullable(),
   published: z.boolean().default(false),
