@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 const useTalks = () => {
   return useQuery({
     queryKey: ["talks"],
-
     queryFn: () => getTalks(),
   });
 };

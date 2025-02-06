@@ -11,26 +11,26 @@ import { CreateOrDeleteArticleLikeInputs } from "@/modules/react/sections/articl
 
 export class ApiArticleGateway implements IArticleGateway {
   async getArticles(): Promise<ExtendedArticle[]> {
-    const response = await axiosInstance.get<ExtendedArticle[]>("/api/article");
+    const response = await axiosInstance.get<ExtendedArticle[]>("/api/blog");
     return response.data;
   }
 
   async getArticle(id: string): Promise<ExtendedArticle> {
     const response = await axiosInstance.get<ExtendedArticle>(
-      `/api/article/${id}`
+      `/api/blog/${id}`
     );
     return response.data;
   }
 
   async getArticleComments(id: string): Promise<ArticleComment[]> {
     const response = await axiosInstance.get<ArticleComment[]>(
-      `/api/article/${id}/comments`
+      `/api/blog/${id}/comments`
     );
     return response.data;
   }
 
   async createArticle(article: CreateArticleDto): Promise<Article> {
-    const response = await axiosInstance.patch("/api/article", article);
+    const response = await axiosInstance.patch("/api/blog", article);
     return response.data;
   }
 
@@ -39,7 +39,7 @@ export class ApiArticleGateway implements IArticleGateway {
     articleComment: ArticleComment;
   }> {
     const response = await axiosInstance.patch(
-      `/api/article/${articleComment.articleId}/comment`,
+      `/api/blog/${articleComment.articleId}/comment`,
       articleComment
     );
     return response.data;
@@ -52,7 +52,7 @@ export class ApiArticleGateway implements IArticleGateway {
     message: string;
   }> {
     const response = await axiosInstance.delete(
-      `/api/article/${articleId}/comment/${articleCommentId}`
+      `/api/blog/${articleId}/comment/${articleCommentId}`
     );
     return response.data;
   }
@@ -64,7 +64,7 @@ export class ApiArticleGateway implements IArticleGateway {
     articleLike: ArticleLike;
   }> {
     const response = await axiosInstance.patch(
-      `/api/article/${articleLike.articleId}/like`,
+      `/api/blog/${articleLike.articleId}/like`,
       articleLike
     );
     return response.data;
@@ -76,7 +76,7 @@ export class ApiArticleGateway implements IArticleGateway {
     message: string;
   }> {
     const response = await axiosInstance.delete(
-      `/api/article/${articleLike.articleId}/like`,
+      `/api/blog/${articleLike.articleId}/like`,
       {
         data: articleLike,
       }

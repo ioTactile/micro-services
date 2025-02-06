@@ -42,11 +42,9 @@ const TalkCommentForm = ({
   const {
     control,
     handleSubmit,
-    formState: { isValid, errors },
+    formState: { isValid },
     reset,
   } = form;
-
-  console.log(errors);
 
   const { user } = useUser();
 

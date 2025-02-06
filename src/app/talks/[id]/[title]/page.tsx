@@ -9,7 +9,8 @@ import {
 } from "@tanstack/react-query";
 
 export default async function Talk({ params }: PageProps) {
-  const { id } = await params;
+  const id = (await params).id;
+
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
