@@ -1,0 +1,13 @@
+model ArticleTag {
+  tagId String 
+  tag   Tag    @relation(fields: [tagId], references: [id], onDelete: NoAction)
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: NoAction)
+
+  createdAt DateTime @default(now())
+
+  @@id([tagId, articleId])
+  @@index([articleId])
+  @@index([tagId])
+}
+

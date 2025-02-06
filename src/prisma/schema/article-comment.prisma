@@ -1,26 +1,32 @@
-model TalkComment {
+model ArticleComment {
   id        String      @id @default(cuid())
   content   String
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+
   
   // Relations avec Talk et User
-  talkId    String
-  talk      Talk        @relation(fields: [talkId], references: [id], onDelete: NoAction)
-  authorId  String
+  articleId    String
+  article      Article      @relation(fields: [articleId], references: [id], onDelete: NoAction)
+  authorId  String      
   author    User        @relation(fields: [authorId], references: [clerkId], onDelete: NoAction)
   
+
   // Gestion des commentaires imbriqués
-  replyToId  String?
-  replyTo    TalkComment?    @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction)
-  replies   TalkComment[]   @relation("ReplyTo")
+  replyToId  String?      
+  replyTo    ArticleComment?    @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction)
+  replies   ArticleComment[]   @relation("ReplyTo")
+
+
 
   // Ajout de la relation avec l'utilisateur qui répond
-  replyToUserId  String?
+  replyToUserId  String?      
   replyToUser    User?        @relation("ReplyToUser", fields: [replyToUserId], references: [clerkId], onDelete: NoAction)
   
-  @@index([talkId])
+
+  @@index([articleId])
   @@index([authorId])
   @@index([replyToId])
   @@index([replyToUserId])
+
 }

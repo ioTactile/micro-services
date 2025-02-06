@@ -1,5 +1,5 @@
 import { ITalkGateway } from "@/modules/core/gateway/talk.gateway";
-import { Talk } from "@prisma/client";
+import { Talk, TalkComment } from "@prisma/client";
 import {
   CreateTalkDto,
   ExtendedTalk,
@@ -22,16 +22,23 @@ export class ApiTalkGateway implements ITalkGateway {
     return response.data;
   }
 
-  async createTalk(talk: CreateTalkDto): Promise<Talk> {
-    const response = await axiosInstance.patch("/api/talk/create", talk);
+  async createTalk(talk: CreateTalkDto): Promise<{
+    message: string;
+    talk: Talk;
+  }> {
+    const response = await axiosInstance.patch("/api/talk", talk);
     return response.data;
   }
 
-  async createTalkComment(talkComment: CreateTalkCommentDto): Promise<void> {
-    await axiosInstance.patch(
+  async createTalkComment(talkComment: CreateTalkCommentDto): Promise<{
+    message: string;
+    talkComment: TalkComment;
+  }> {
+    const response = await axiosInstance.patch(
       `/api/talk/${talkComment.talkId}/comment`,
       talkComment
     );
+    return response.data;
   }
 }
 

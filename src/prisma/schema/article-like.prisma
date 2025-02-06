@@ -1,0 +1,12 @@
+model ArticleLike {
+  articleId String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: NoAction)
+  userId    String
+  user      User     @relation(fields: [userId], references: [clerkId], onDelete: NoAction)
+
+  createdAt DateTime @default(now())
+
+  @@id([articleId, userId])
+  @@index([articleId])
+  @@index([userId])
+}

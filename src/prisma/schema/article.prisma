@@ -1,0 +1,21 @@
+model Article {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String
+  imageUrl  String?
+  imageName String?
+  excerpt   String?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  authorId  String   
+  author    User     @relation(fields: [authorId], references: [clerkId], onDelete: NoAction)
+  articleComments  ArticleComment[]
+  articleLikes  ArticleLike[]
+  articleTags ArticleTag[]
+
+  @@index([authorId])
+}

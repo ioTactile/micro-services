@@ -10,6 +10,7 @@ import Header from "@/app/_components/core/header";
 import { Toaster } from "@/app/_components/ui/toaster";
 import { SITE_META_DESRIPTION, SITE_NAME } from "@/app/_constants/seo";
 import { cn } from "@/lib/utils";
+import NextTopLoader from "nextjs-toploader";
 
 export const metadata: Metadata = {
   title: SITE_NAME,
@@ -33,6 +34,12 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className={cn(mainFont.className)}>
+        <NextTopLoader
+          color="hsl(124, 30%, 35%)"
+          showSpinner={false}
+          height={3}
+        />
+
         <ClerkProvider>
           <ReactQueryClientProvider>
             <ThemeProvider

@@ -9,4 +9,8 @@ model User {
   talks     Talk[]
   talkComments  TalkComment[]
   talkReceivedReplies TalkComment[] @relation("ReplyToUser")
+  articles Article[]
+  articleComments ArticleComment[]
+  articleReceivedReplies ArticleComment[] @relation("ReplyToUser")
+  articleLikes ArticleLike[]
 }
