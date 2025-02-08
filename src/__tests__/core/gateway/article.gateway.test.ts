@@ -4,10 +4,13 @@ import { axiosInstance } from "@/lib/globals";
 import {
   mockArticle,
   mockArticleComment,
+  mockCreateArticleCommentDto,
   mockArticleDto,
   mockArticleLike,
+  mockArticleLikeDto,
   mockArticles,
   mockUpdateArticleDto,
+  mockDeleteArticleCommentDto,
 } from "@/__tests__/fixtures/article.fixture";
 import { beforeEach } from "node:test";
 
@@ -23,6 +26,7 @@ vi.mock("@/lib/globals", () => ({
 describe("ArticleGateway", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.resetAllMocks();
   });
 
   it("devrait récupérer la liste des articles", async () => {
@@ -50,7 +54,6 @@ describe("ArticleGateway", () => {
   it("devrait créer un nouvel article", async () => {
     const mockResponse = {
       message: "Article créé",
-      article: mockArticle,
     };
 
     vi.mocked(axiosInstance.post).mockResolvedValueOnce({
@@ -68,7 +71,6 @@ describe("ArticleGateway", () => {
   it("devrait mettre à jour un article", async () => {
     const mockResponse = {
       message: "Article mis à jour",
-      article: mockArticle,
     };
 
     vi.mocked(axiosInstance.patch).mockResolvedValueOnce({
@@ -100,7 +102,6 @@ describe("ArticleGateway", () => {
   it("devrait créer un nouveau commentaire pour un article", async () => {
     const mockResponse = {
       message: "Commentaire créé",
-      articleComment: mockArticleComment,
     };
 
     vi.mocked(axiosInstance.post).mockResolvedValueOnce({
@@ -113,7 +114,7 @@ describe("ArticleGateway", () => {
     expect(result).toEqual(mockResponse);
     expect(axiosInstance.post).toHaveBeenCalledWith(
       `/api/blog/${mockArticleComment.articleId}/comment`,
-      mockArticleComment
+      mockCreateArticleCommentDto
     );
   });
 
@@ -125,20 +126,19 @@ describe("ArticleGateway", () => {
     });
 
     const result = await articleGateway.deleteArticleComment(
-      mockArticleComment.articleId,
-      mockArticleComment.id
+      mockDeleteArticleCommentDto
     );
     expect(result).toEqual(mockResponse);
 
     expect(axiosInstance.delete).toHaveBeenCalledWith(
-      `/api/blog/${mockArticleComment.articleId}/comment/${mockArticleComment.id}`
+      `/api/blog/${mockDeleteArticleCommentDto.articleId}/comment/${mockDeleteArticleCommentDto.articleCommentId}`,
+      mockDeleteArticleCommentDto
     );
   });
 
   it("devrait créer un like pour un article", async () => {
     const mockResponse = {
       message: "Article liké",
-      articleLike: mockArticleLike,
     };
 
     vi.mocked(axiosInstance.post).mockResolvedValueOnce({
@@ -149,7 +149,7 @@ describe("ArticleGateway", () => {
     expect(result).toEqual(mockResponse);
     expect(axiosInstance.post).toHaveBeenCalledWith(
       `/api/blog/${mockArticleLike.articleId}/like`,
-      mockArticleLike
+      mockArticleLikeDto
     );
   });
 

@@ -3,6 +3,7 @@ import { CreateArticleInputs } from "@/modules/react/sections/articles/_schemas/
 import { UpdateArticleInputs } from "@/modules/react/sections/articles/_schemas/update-article";
 import { CreateArticleCommentInputs } from "@/modules/react/sections/articles/_schemas/create-article-comment";
 import { CreateOrDeleteArticleLikeInputs } from "@/modules/react/sections/articles/_schemas/create-article-like";
+import { DeleteArticleCommentInputs } from "@/modules/react/sections/articles/_schemas/delete-article-comment";
 
 // Create Article
 export type CreateArticleDto = {
@@ -54,6 +55,10 @@ type ArticleCommentWithRelations = {
 } & ArticleComment;
 
 export type GetArticleCommentsResponse = ArticleCommentWithRelations[];
+
+// Delete Article Comment
+
+export type DeleteArticleCommentDto = DeleteArticleCommentInputs;
 
 // Create/Delete Article Like
 

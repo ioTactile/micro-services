@@ -6,6 +6,7 @@ import {
   UpdateArticleDto,
   CreateArticleCommentDto,
   CreateOrDeleteArticleLikeDto,
+  DeleteArticleCommentDto,
 } from "@/modules/core/model/Article";
 
 export interface IArticleGateway {
@@ -31,10 +32,7 @@ export interface IArticleGateway {
     message: string;
   }>;
 
-  deleteArticleComment: (
-    articleId: string,
-    articleCommentId: string
-  ) => Promise<{
+  deleteArticleComment: (articleComment: DeleteArticleCommentDto) => Promise<{
     message: string;
   }>;
 

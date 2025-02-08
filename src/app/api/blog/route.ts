@@ -20,12 +20,9 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    const article = await articleService.createArticle(data);
+    await articleService.createArticle(data);
 
-    return NextResponse.json(
-      { message: "Article créé", article },
-      { status: 201 }
-    );
+    return NextResponse.json({ message: "Article créé" }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: "Erreur interne du serveur: " + error },

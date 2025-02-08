@@ -1,6 +1,7 @@
 import { IArticleGateway } from "@/modules/core/gateway/article.gateway";
 import {
   CreateArticleDto,
+  DeleteArticleCommentDto,
   GetArticleCommentsResponse,
   GetArticleResponse,
   GetArticlesResponse,
@@ -40,14 +41,19 @@ export class ApiArticleGateway implements IArticleGateway {
   async updateArticle(article: UpdateArticleDto): Promise<{
     message: string;
   }> {
-    const response = await axiosInstance.patch("/api/blog", article);
+    const response = await axiosInstance.patch(
+      `/api/blog/${article.id}`,
+      article
+    );
     return response.data;
   }
 
   async deleteArticle(id: string): Promise<{
     message: string;
   }> {
-    const response = await axiosInstance.delete(`/api/blog/${id}`);
+    const response = await axiosInstance.delete(`/api/blog/${id}`, {
+      data: { id },
+    });
     return response.data;
   }
 
@@ -61,14 +67,14 @@ export class ApiArticleGateway implements IArticleGateway {
     return response.data;
   }
 
-  async deleteArticleComment(
-    articleId: string,
-    articleCommentId: string
-  ): Promise<{
+  async deleteArticleComment(articleComment: DeleteArticleCommentDto): Promise<{
     message: string;
   }> {
     const response = await axiosInstance.delete(
-      `/api/blog/${articleId}/comment/${articleCommentId}`
+      `/api/blog/${articleComment.articleId}/comment/${articleComment.articleCommentId}`,
+      {
+        data: articleComment,
+      }
     );
     return response.data;
   }

@@ -1,5 +1,8 @@
 import {
+  CreateArticleCommentDto,
   CreateArticleDto,
+  CreateOrDeleteArticleLikeDto,
+  DeleteArticleCommentDto,
   UpdateArticleDto,
 } from "@/modules/core/model/Article";
 import { Article, ArticleComment, ArticleLike } from "@prisma/client";
@@ -51,10 +54,28 @@ export const mockArticleComment: ArticleComment = {
   replyToUserId: null,
 };
 
+export const mockCreateArticleCommentDto: CreateArticleCommentDto = {
+  content: "Test comment",
+  articleId: "1",
+  authorId: "user_1",
+  replyToId: null,
+  replyToUserId: null,
+};
+
+export const mockDeleteArticleCommentDto: DeleteArticleCommentDto = {
+  articleId: "1",
+  articleCommentId: "1",
+};
+
 export const mockArticleComments: ArticleComment[] = [
   { ...mockArticleComment, id: "1" },
   { ...mockArticleComment, id: "2" },
 ];
+
+export const mockArticleLikeDto: CreateOrDeleteArticleLikeDto = {
+  articleId: "1",
+  userId: "user_1",
+};
 
 export const mockArticleLike: ArticleLike = {
   articleId: "1",

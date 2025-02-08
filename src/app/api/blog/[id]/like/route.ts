@@ -5,7 +5,7 @@ import { ArticleService } from "@/modules/core/service/article.service";
 const articleRepository = new PrismaArticleRepository();
 const articleService = new ArticleService(articleRepository);
 
-export async function PATCH(request: Request) {
+export async function POST(request: Request) {
   try {
     const { articleId, userId } = await request.json();
 

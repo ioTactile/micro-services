@@ -1,16 +1,15 @@
-import prisma from "@/prisma";
 import { NextResponse } from "next/server";
+import { TalkService } from "@/modules/core/service/talk.service";
+import { PrismaTalkRepository } from "@/modules/core/repository/talk.repository";
 
-export async function DELETE(
-  _request: Request,
-  { params }: { params: Promise<{ id: string; commentId: string }> }
-) {
+const talkRepository = new PrismaTalkRepository();
+const talkService = new TalkService(talkRepository);
+
+export async function DELETE(request: Request) {
   try {
-    const commentId = (await params).commentId;
+    const { commentId } = await request.json();
 
-    await prisma.talkComment.delete({
-      where: { id: commentId },
-    });
+    await talkService.deleteTalkComment(commentId);
 
     return NextResponse.json(
       { message: "Commentaire supprimé" },
