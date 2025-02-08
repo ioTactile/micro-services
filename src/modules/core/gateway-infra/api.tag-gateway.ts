@@ -6,7 +6,7 @@ import { Tag } from "@prisma/client";
 
 export class ApTagGateway implements ITagGateway {
   async getTags(): Promise<Tag[]> {
-    const response = await axiosInstance.get<Tag[]>("/api/tags");
+    const response = await axiosInstance.get<Tag[]>("/api/tag");
     return response.data;
   }
 
@@ -14,7 +14,7 @@ export class ApTagGateway implements ITagGateway {
     tag: CreateTagInputs
   ): Promise<{ message: string; tag: Tag }> {
     const response = await axiosInstance.post<{ message: string; tag: Tag }>(
-      "/api/tags",
+      "/api/tag",
       tag
     );
     return response.data;
@@ -22,7 +22,7 @@ export class ApTagGateway implements ITagGateway {
 
   async deleteTag(id: string): Promise<{ message: string }> {
     const response = await axiosInstance.delete<{ message: string }>(
-      `/api/tags/${id}`
+      `/api/tag/${id}`
     );
     return response.data;
   }
@@ -31,7 +31,7 @@ export class ApTagGateway implements ITagGateway {
     tag: UpdateTagInputs
   ): Promise<{ message: string; tag: Tag }> {
     const response = await axiosInstance.put<{ message: string; tag: Tag }>(
-      `/api/tags/${tag.id}`,
+      `/api/tag/${tag.id}`,
       tag
     );
     return response.data;

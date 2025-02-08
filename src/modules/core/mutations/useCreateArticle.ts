@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { articleGateway } from "@/modules/core/gateway-infra/api.article.gateway";
+import { articleGateway } from "@/modules/core/gateway-infra/api.article-gateway";
 import { CreateArticleDto } from "@/modules/core/model/Article";
 
 export function useCreateArticle() {

@@ -26,3 +26,27 @@ export async function GET() {
     );
   }
 }
+
+export async function POST(request: Request) {
+  try {
+    const { title, content, authorId } = await request.json();
+
+    const talk = await prisma.talk.create({
+      data: {
+        title,
+        content,
+        authorId,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Discussion créée avec succès", talk },
+      { status: 201 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Erreur interne du serveur: " + error },
+      { status: 500 }
+    );
+  }
+}

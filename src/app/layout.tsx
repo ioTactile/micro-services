@@ -11,6 +11,7 @@ import { Toaster } from "@/app/_components/ui/toaster";
 import { SITE_META_DESRIPTION, SITE_NAME } from "@/app/_constants/seo";
 import { cn } from "@/lib/utils";
 import NextTopLoader from "nextjs-toploader";
+import StoreInitializer from "@/app/_providers/store-initializer";
 
 export const metadata: Metadata = {
   title: SITE_NAME,
@@ -48,7 +49,10 @@ export default async function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
+              <StoreInitializer />
+
               <Header />
+
               <main>{children}</main>
 
               <Toaster />

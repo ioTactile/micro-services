@@ -38,13 +38,14 @@ export async function GET(
 
 export async function PATCH(request: Request) {
   try {
-    const { title, content, excerpt, imageUrl, imageName, authorId, tags } =
+    const { id, title, content, excerpt, imageUrl, imageName, authorId, tags } =
       await request.json();
 
     const slug =
       title.toLowerCase().replace(/ /g, "-") + "-" + Date.now().toString();
 
-    const article = await prisma.article.create({
+    const article = await prisma.article.update({
+      where: { id },
       data: {
         title,
         content,
@@ -69,13 +70,31 @@ export async function PATCH(request: Request) {
     });
 
     return NextResponse.json(
-      { message: "Article créé", article },
-      { status: 201 }
+      {
+        message: "Article mis à jour avec succès",
+        article,
+      },
+      { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
       { error: "Erreur interne du serveur: " + error },
+      { status: 500 }
+    );
+  }
+}
 
+export async function DELETE(request: Request) {
+  try {
+    const { id } = await request.json();
+    await prisma.article.delete({ where: { id } });
+    return NextResponse.json(
+      { message: "Article supprimé avec succès" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Erreur interne du serveur: " + error },
       { status: 500 }
     );
   }

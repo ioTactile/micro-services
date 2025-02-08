@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { ComponentProps } from "react";
+import Image from "next/image";
 import { SITE_NAME } from "@/app/_constants/seo";
 
 interface Props extends Omit<ComponentProps<typeof Link>, "href"> {
@@ -12,7 +13,6 @@ const AppLogo = ({ className, ...props }: Props) => {
     <Link
       href="/"
       className={cn(
-        "text-2xl lg:text-3xl relative",
         "bg-gradient-to-r from-primary via-accent to-secondary",
         "dark:from-primary dark:via-accent dark:to-secondary",
         "bg-clip-text text-transparent",
@@ -21,7 +21,12 @@ const AppLogo = ({ className, ...props }: Props) => {
       )}
       {...props}
     >
-      <span className="font-bold">{SITE_NAME}</span>
+      <Image
+        src={"/assets/vertical-sync.png"}
+        alt={`${SITE_NAME} logo`}
+        height={120}
+        width={120}
+      />
     </Link>
   );
 };

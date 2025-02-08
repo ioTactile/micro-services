@@ -1,13 +1,29 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-const isProtectedRoute = createRouteMatcher(["/admin(.*)", "/talks/create"]);
+const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
+const isProtectedRoute = createRouteMatcher([
+  "/talks/create",
+  "/talks/:id/edit",
+  "/blog/create",
+  "/blog/:slug/edit",
+]);
 
 export default clerkMiddleware(async (auth, req) => {
   const headers = new Headers(req.headers);
   headers.set("x-current-path", req.nextUrl.pathname);
 
-  if (isProtectedRoute(req)) await auth.protect();
+  const { sessionClaims } = await auth();
+
+  if (isAdminRoute(req)) {
+    if (sessionClaims?.metadata?.role !== "admin") {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+  }
+
+  if (isProtectedRoute(req)) {
+    await auth.protect();
+  }
 
   return NextResponse.next({
     headers,

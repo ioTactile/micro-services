@@ -24,14 +24,19 @@ import {
 } from "@/app/_components/ui/sheet";
 import { Button } from "@/app/_components/ui/button";
 import { NavigationItem } from "@/types/navigation-item";
-
+import { useUserStore } from "@/modules/core/store/store";
 const mainMenuItems: NavigationItem<string>[] = [
   { title: "Discussions", url: "/talks", icon: MessageSquareText },
   { title: "Blog", url: "/blog", icon: Library },
-  { title: "Admin", url: "/admin", icon: Settings },
 ];
 
 const Header = () => {
+  const isAdmin = useUserStore((state) => state.isAdmin);
+
+  const menuItems = isAdmin
+    ? [...mainMenuItems, { title: "Admin", url: "/admin", icon: Settings }]
+    : mainMenuItems;
+
   return (
     <header className="border-b">
       <div className="container flex h-16 items-center justify-between mx-auto px-4 sm:px-0">
@@ -41,7 +46,7 @@ const Header = () => {
           {/* Main Navigation */}
           <NavigationMenu className="hidden md:block">
             <NavigationMenuList className="space-x-2">
-              {mainMenuItems.map((item, index) => (
+              {menuItems.map((item, index) => (
                 <NavigationMenuItem key={index}>
                   <Link href={item.url} legacyBehavior passHref>
                     <NavigationMenuLink
@@ -90,7 +95,7 @@ const Header = () => {
                 <h2 className="mb-2 text-sm font-semibold text-muted-foreground">
                   Menu
                 </h2>
-                {mainMenuItems.map((item, index) => (
+                {menuItems.map((item, index) => (
                   <SheetClose asChild key={index}>
                     <Link
                       href={item.url}

@@ -36,19 +36,32 @@ export async function GET(
 
 export async function PATCH(request: Request) {
   try {
-    const { title, content, authorId } = await request.json();
+    const { id, title, content, updatedAt } = await request.json();
 
-    const talk = await prisma.talk.create({
-      data: {
-        title,
-        content,
-        authorId,
-      },
+    const talk = await prisma.talk.update({
+      where: { id },
+      data: { title, content, updatedAt },
     });
 
     return NextResponse.json(
-      { message: "Discussion créée", talk },
-      { status: 201 }
+      { message: "Discussion mise à jour avec succès", talk },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Erreur interne du serveur: " + error },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { id } = await request.json();
+    await prisma.talk.delete({ where: { id } });
+    return NextResponse.json(
+      { message: "Discussion supprimée avec succès" },
+      { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(

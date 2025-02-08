@@ -3,6 +3,7 @@ import { Article, ArticleComment, ArticleLike } from "@prisma/client";
 import {
   CreateArticleDto,
   ExtendedArticle,
+  UpdateArticleDto,
 } from "@/modules/core/model/Article";
 
 import { CreateArticleCommentDto } from "@/modules/core/model/ArticleComment";
@@ -29,8 +30,26 @@ export class ApiArticleGateway implements IArticleGateway {
     return response.data;
   }
 
-  async createArticle(article: CreateArticleDto): Promise<Article> {
+  async createArticle(article: CreateArticleDto): Promise<{
+    message: string;
+    article: Article;
+  }> {
+    const response = await axiosInstance.post("/api/blog", article);
+    return response.data;
+  }
+
+  async updateArticle(article: UpdateArticleDto): Promise<{
+    message: string;
+    article: Article;
+  }> {
     const response = await axiosInstance.patch("/api/blog", article);
+    return response.data;
+  }
+
+  async deleteArticle(id: string): Promise<{
+    message: string;
+  }> {
+    const response = await axiosInstance.delete(`/api/blog/${id}`);
     return response.data;
   }
 

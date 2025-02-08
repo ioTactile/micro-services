@@ -32,7 +32,10 @@ export async function DELETE(request: Request) {
       where: { articleId_userId: { articleId, userId } },
     });
 
-    return NextResponse.json({ message: "Article non liké" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Like supprimé avec succès" },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       { error: "Erreur interne du serveur: " + error },

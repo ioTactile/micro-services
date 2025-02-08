@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateArticleCommentDto } from "@/modules/core/model/ArticleComment";
-import { articleGateway } from "@/modules/core/gateway-infra/api.article.gateway";
+import { articleGateway } from "@/modules/core/gateway-infra/api.article-gateway";
 
 export function useCreateArticleComment() {
   const queryClient = useQueryClient();

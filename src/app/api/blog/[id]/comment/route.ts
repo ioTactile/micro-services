@@ -29,7 +29,7 @@ export async function GET(
   }
 }
 
-export async function PATCH(request: Request) {
+export async function POST(request: Request) {
   try {
     const { articleId, content, authorId, replyToId, replyToUserId } =
       await request.json();
@@ -45,7 +45,7 @@ export async function PATCH(request: Request) {
     });
 
     return NextResponse.json(
-      { message: "Réponse au commentaire créée", comment: reply },
+      { message: "Commentaire créé avec succès", comment: reply },
       { status: 201 }
     );
   } catch (error) {

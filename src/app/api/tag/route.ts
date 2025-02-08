@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const articleTags = await prisma.articleTag.findMany();
-    return NextResponse.json(articleTags, { status: 200 });
+    const tags = await prisma.tag.findMany();
+    return NextResponse.json(tags, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: "Erreur interne du serveur: " + error },
