@@ -1,5 +1,9 @@
-import prisma from "@/prisma";
 import { NextResponse } from "next/server";
+import { PrismaArticleRepository } from "@/modules/core/repository/article.repository";
+import { ArticleService } from "@/modules/core/service/article.service";
+
+const articleRepository = new PrismaArticleRepository();
+const articleService = new ArticleService(articleRepository);
 
 export async function GET(
   _request: Request,
@@ -8,25 +12,15 @@ export async function GET(
   const id = (await params).id;
 
   try {
-    const article = await prisma.article.findUnique({
-      where: { id },
-      include: {
-        author: true,
-        articleTags: true,
-        articleLikes: true,
-        articleComments: {
-          include: {
-            replies: {
-              include: {
-                author: true,
-                replyToUser: true,
-              },
-            },
-            author: true,
-          },
-        },
-      },
-    });
+    const article = await articleService.getArticleById(id);
+
+    if (!article) {
+      return NextResponse.json(
+        { error: "Article non trouvé" },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(article, { status: 200 });
   } catch (error) {
     return NextResponse.json(
@@ -38,41 +32,32 @@ export async function GET(
 
 export async function PATCH(request: Request) {
   try {
-    const { id, title, content, excerpt, imageUrl, imageName, authorId, tags } =
-      await request.json();
+    const {
+      id,
+      title,
+      content,
+      excerpt,
+      imageUrl,
+      imageName,
+      tags,
+      published,
+    } = await request.json();
 
-    const slug =
-      title.toLowerCase().replace(/ /g, "-") + "-" + Date.now().toString();
-
-    const article = await prisma.article.update({
-      where: { id },
-      data: {
-        title,
-        content,
-        slug,
-        excerpt,
-        imageUrl,
-        imageName,
-        authorId,
-        articleTags: {
-          create: tags.map((tag: string) => ({
-            tagId: tag,
-          })),
-        },
-      },
-      include: {
-        articleTags: {
-          include: {
-            tag: true,
-          },
-        },
-      },
+    await articleService.updateArticle({
+      id,
+      title,
+      content,
+      excerpt,
+      imageUrl,
+      imageName,
+      published,
+      updatedAt: new Date(),
+      tags,
     });
 
     return NextResponse.json(
       {
-        message: "Article mis à jour avec succès",
-        article,
+        message: "Article mis à jour",
       },
       { status: 200 }
     );
@@ -87,11 +72,9 @@ export async function PATCH(request: Request) {
 export async function DELETE(request: Request) {
   try {
     const { id } = await request.json();
-    await prisma.article.delete({ where: { id } });
-    return NextResponse.json(
-      { message: "Article supprimé avec succès" },
-      { status: 200 }
-    );
+    await articleService.deleteArticle(id);
+
+    return NextResponse.json({ message: "Article supprimé" }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: "Erreur interne du serveur: " + error },

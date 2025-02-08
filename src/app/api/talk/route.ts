@@ -1,27 +1,17 @@
-import prisma from "@/prisma";
 import { NextResponse } from "next/server";
+import { PrismaTalkRepository } from "@/modules/core/repository/talk.repository";
+import { TalkService } from "@/modules/core/service/talk.service";
+
+const talkRepository = new PrismaTalkRepository();
+const talkService = new TalkService(talkRepository);
 
 export async function GET() {
   try {
-    const talks = await prisma.talk.findMany({
-      include: {
-        author: true,
-        _count: {
-          select: {
-            talkComments: true,
-          },
-        },
-      },
-
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    const talks = await talkService.getTalks();
     return NextResponse.json(talks, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: "Erreur interne du serveur: " + error },
-
       { status: 500 }
     );
   }
@@ -29,20 +19,10 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { title, content, authorId } = await request.json();
+    const data = await request.json();
+    await talkService.createTalk(data);
 
-    const talk = await prisma.talk.create({
-      data: {
-        title,
-        content,
-        authorId,
-      },
-    });
-
-    return NextResponse.json(
-      { message: "Discussion créée avec succès", talk },
-      { status: 201 }
-    );
+    return NextResponse.json({ message: "Discussion créée" }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: "Erreur interne du serveur: " + error },

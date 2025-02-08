@@ -1,25 +1,50 @@
-import { Talk, User } from "@prisma/client";
+import { Talk, TalkComment, User } from "@prisma/client";
 import { CreateTalkInputs } from "@/modules/react/sections/talks/_schemas/create-talk";
-import { ExtendedTalkComment } from "@/modules/core/model/TalkComment";
 import { UpdateTalkInputs } from "@/modules/react/sections/talks/_schemas/update-talk";
+import { CreateTalkCommentInputs } from "@/modules/react/sections/talks/_schemas/create-talk-comment";
 
-export interface CreateTalkDto extends CreateTalkInputs {
+// Create Talk
+export type CreateTalkDto = {
   authorId: string;
-}
+} & CreateTalkInputs;
 
-export interface UpdateTalkDto extends UpdateTalkInputs {
-  authorId: string;
+// Update Talk
+export type UpdateTalkDto = {
   id: string;
-}
+} & UpdateTalkInputs;
 
-export interface ExtendedTalk extends Talk {
+// Many Talks
+type TalkWithRelations = {
   author: User;
   _count: {
     talkComments: number;
   };
-}
+} & Talk;
 
-export interface ExtendedTalkWithComments extends Talk {
+export type GetTalksResponse = TalkWithRelations[];
+
+// One Talk
+type TalkCommentWithRelations = {
   author: User;
-  talkComments: ExtendedTalkComment[];
+  replyToUser: User | null;
+  replies?: (Omit<TalkComment, "replies"> & {
+    author: User;
+    replyToUser: User | null;
+  })[];
+} & TalkComment;
+
+export type GetTalkResponse = {
+  author: User;
+  talkComments: TalkCommentWithRelations[];
+};
+
+// Talk Comments
+export type GetTalkCommentsResponse = TalkCommentWithRelations[];
+
+// Create Talk Comment
+export interface CreateTalkCommentDto extends CreateTalkCommentInputs {
+  talkId: string;
+  authorId: string;
+  replyToId: string | null;
+  replyToUserId: string | null;
 }

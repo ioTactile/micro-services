@@ -1,16 +1,18 @@
-import prisma from "@/prisma";
 import { NextResponse } from "next/server";
+import { PrismaArticleRepository } from "@/modules/core/repository/article.repository";
+import { ArticleService } from "@/modules/core/service/article.service";
+
+const articleRepository = new PrismaArticleRepository();
+const articleService = new ArticleService(articleRepository);
 
 export async function DELETE(request: Request) {
   try {
     const { commentId } = await request.json();
 
-    await prisma.articleComment.delete({
-      where: { id: commentId },
-    });
+    await articleService.deleteArticleComment(commentId);
 
     return NextResponse.json(
-      { message: "Commentaire supprimé avec succès" },
+      { message: "Commentaire supprimé" },
       { status: 200 }
     );
   } catch (error) {

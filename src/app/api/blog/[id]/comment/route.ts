@@ -1,5 +1,9 @@
-import prisma from "@/prisma";
 import { NextResponse } from "next/server";
+import { PrismaArticleRepository } from "@/modules/core/repository/article.repository";
+import { ArticleService } from "@/modules/core/service/article.service";
+
+const articleRepository = new PrismaArticleRepository();
+const articleService = new ArticleService(articleRepository);
 
 export async function GET(
   _request: Request,
@@ -8,18 +12,8 @@ export async function GET(
   const id = (await params).id;
 
   try {
-    const articleComments = await prisma.articleComment.findMany({
-      where: { articleId: id },
-      include: {
-        author: true,
-        replies: {
-          include: {
-            author: true,
-            replyToUser: true,
-          },
-        },
-      },
-    });
+    const articleComments = await articleService.getArticleComments(id);
+
     return NextResponse.json(articleComments, { status: 200 });
   } catch (error) {
     return NextResponse.json(
@@ -34,20 +28,15 @@ export async function POST(request: Request) {
     const { articleId, content, authorId, replyToId, replyToUserId } =
       await request.json();
 
-    const reply = await prisma.articleComment.create({
-      data: {
-        content,
-        authorId,
-        articleId,
-        replyToId,
-        replyToUserId,
-      },
+    await articleService.createArticleComment({
+      articleId,
+      content,
+      authorId,
+      replyToId,
+      replyToUserId,
     });
 
-    return NextResponse.json(
-      { message: "Commentaire créé avec succès", comment: reply },
-      { status: 201 }
-    );
+    return NextResponse.json({ message: "Commentaire créé" }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: "Erreur interne du serveur: " + error },

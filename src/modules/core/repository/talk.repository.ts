@@ -1,0 +1,114 @@
+import prisma from "@/prisma";
+import {
+  GetTalkCommentsResponse,
+  GetTalkResponse,
+  GetTalksResponse,
+  UpdateTalkDto,
+  CreateTalkDto,
+  CreateTalkCommentDto,
+} from "@/modules/core/model/Talk";
+
+export interface ITalkRepository {
+  findMany(): Promise<GetTalksResponse>;
+  findById(id: string): Promise<GetTalkResponse | null>;
+  create(data: CreateTalkDto): Promise<void>;
+  update(data: UpdateTalkDto): Promise<void>;
+  delete(id: string): Promise<void>;
+  getTalkComments(talkId: string): Promise<GetTalkCommentsResponse>;
+  createTalkComment(data: CreateTalkCommentDto): Promise<void>;
+  deleteTalkComment(id: string): Promise<void>;
+}
+
+export class PrismaTalkRepository implements ITalkRepository {
+  async findMany(): Promise<GetTalksResponse> {
+    return await prisma.talk.findMany({
+      include: {
+        author: true,
+        _count: {
+          select: {
+            talkComments: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }
+
+  async findById(id: string): Promise<GetTalkResponse | null> {
+    return await prisma.talk.findUnique({
+      where: { id },
+      include: {
+        author: true,
+        talkComments: {
+          include: {
+            author: true,
+            replyToUser: true,
+            replies: {
+              include: {
+                author: true,
+                replyToUser: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async create(data: CreateTalkDto): Promise<void> {
+    await prisma.talk.create({
+      data: {
+        title: data.title,
+        content: data.content,
+        authorId: data.authorId,
+      },
+    });
+  }
+
+  async update(data: UpdateTalkDto): Promise<void> {
+    await prisma.talk.update({
+      where: { id: data.id },
+      data: {
+        title: data.title,
+        content: data.content,
+        updatedAt: data.updatedAt,
+      },
+    });
+  }
+
+  async delete(id: string): Promise<void> {
+    await prisma.talk.delete({
+      where: { id },
+    });
+  }
+
+  async getTalkComments(talkId: string): Promise<GetTalkCommentsResponse> {
+    return await prisma.talkComment.findMany({
+      where: { talkId },
+      include: {
+        author: true,
+        replyToUser: true,
+        replies: {
+          include: {
+            author: true,
+            replyToUser: true,
+          },
+        },
+      },
+    });
+  }
+
+  async createTalkComment(data: CreateTalkCommentDto): Promise<void> {
+    await prisma.talkComment.create({
+      data,
+    });
+  }
+
+  async deleteTalkComment(id: string): Promise<void> {
+    await prisma.talkComment.delete({
+      where: { id },
+    });
+  }
+}

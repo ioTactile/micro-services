@@ -1,11 +1,10 @@
 import {
   CreateArticleDto,
-  ExtendedArticle,
   UpdateArticleDto,
 } from "@/modules/core/model/Article";
-import { ArticleComment, ArticleLike } from "@prisma/client";
+import { Article, ArticleComment, ArticleLike } from "@prisma/client";
 
-export const mockArticle: ExtendedArticle = {
+export const mockArticle: Article = {
   id: "1",
   title: "Test Article",
   content: "Test content",
@@ -14,23 +13,12 @@ export const mockArticle: ExtendedArticle = {
   imageName: "test-image",
   excerpt: "Test excerpt",
   published: true,
-  author: {
-    id: "1",
-    clerkId: "user_1",
-    name: "John Doe",
-    email: "john@example.com",
-    imageUrl: "https://example.com/image.jpg",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
   authorId: "user_1",
   createdAt: new Date(),
   updatedAt: new Date(),
-
-  articleTags: [],
 };
 
-export const mockArticles: ExtendedArticle[] = [
+export const mockArticles: Article[] = [
   { ...mockArticle, id: "1" },
   { ...mockArticle, id: "2" },
 ];

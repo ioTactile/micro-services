@@ -13,7 +13,7 @@ export async function DELETE(
     });
 
     return NextResponse.json(
-      { message: "Commentaire supprimé avec succès" },
+      { message: "Commentaire supprimé" },
       { status: 200 }
     );
   } catch (error) {

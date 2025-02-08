@@ -9,6 +9,7 @@ import {
   mockTalkWithComments,
   mockUpdateTalkDto,
 } from "@/__tests__/fixtures/talk.fixture";
+import { beforeEach } from "node:test";
 
 vi.mock("@/lib/globals", () => ({
   axiosInstance: {
@@ -20,6 +21,10 @@ vi.mock("@/lib/globals", () => ({
 }));
 
 describe("TalkGateway", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it("devrait récupérer la liste des talks", async () => {
     vi.mocked(axiosInstance.get).mockResolvedValueOnce({ data: mockTalks });
 
@@ -40,7 +45,7 @@ describe("TalkGateway", () => {
 
   it("devrait créer un nouveau talk", async () => {
     const mockResponse = {
-      message: "Discussion créée avec succès",
+      message: "Discussion créée",
       talk: mockTalk,
     };
 
@@ -55,7 +60,7 @@ describe("TalkGateway", () => {
 
   it("devrait mettre à jour un talk", async () => {
     const mockResponse = {
-      message: "Discussion mise à jour avec succès",
+      message: "Discussion mise à jour",
       talk: mockTalk,
     };
 
@@ -72,7 +77,7 @@ describe("TalkGateway", () => {
   });
 
   it("devrait supprimer un talk", async () => {
-    const mockResponse = { message: "Discussion supprimée avec succès" };
+    const mockResponse = { message: "Discussion supprimée" };
 
     vi.mocked(axiosInstance.delete).mockResolvedValueOnce({
       data: mockResponse,
@@ -101,7 +106,7 @@ describe("TalkGateway", () => {
 
   it("devrait créer un nouveau commentaire pour un talk", async () => {
     const mockResponse = {
-      message: "Commentaire créé avec succès",
+      message: "Commentaire créé",
       talkComment: mockTalkComment,
     };
 
@@ -119,7 +124,7 @@ describe("TalkGateway", () => {
 
   it("devrait supprimer un commentaire pour un talk", async () => {
     const mockResponse = {
-      message: "Commentaire supprimé avec succès",
+      message: "Commentaire supprimé",
     };
 
     vi.mocked(axiosInstance.delete).mockResolvedValueOnce({

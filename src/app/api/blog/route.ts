@@ -1,28 +1,17 @@
-import prisma from "@/prisma";
 import { NextResponse } from "next/server";
+import { PrismaArticleRepository } from "@/modules/core/repository/article.repository";
+import { ArticleService } from "@/modules/core/service/article.service";
+
+const articleRepository = new PrismaArticleRepository();
+const articleService = new ArticleService(articleRepository);
 
 export async function GET() {
   try {
-    const articles = await prisma.article.findMany({
-      include: {
-        author: true,
-        articleTags: true,
-        _count: {
-          select: {
-            articleComments: true,
-            articleLikes: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    const articles = await articleService.getArticles();
     return NextResponse.json(articles, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: "Erreur interne du serveur: " + error },
-
       { status: 500 }
     );
   }
@@ -30,35 +19,8 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { title, content, excerpt, imageUrl, imageName, authorId, tags } =
-      await request.json();
-
-    const slug =
-      title.toLowerCase().replace(/ /g, "-") + "-" + Date.now().toString();
-
-    const article = await prisma.article.create({
-      data: {
-        title,
-        content,
-        slug,
-        excerpt,
-        imageUrl,
-        imageName,
-        authorId,
-        articleTags: {
-          create: tags.map((tag: string) => ({
-            tagId: tag,
-          })),
-        },
-      },
-      include: {
-        articleTags: {
-          include: {
-            tag: true,
-          },
-        },
-      },
-    });
+    const data = await request.json();
+    const article = await articleService.createArticle(data);
 
     return NextResponse.json(
       { message: "Article créé", article },
@@ -67,7 +29,6 @@ export async function POST(request: Request) {
   } catch (error) {
     return NextResponse.json(
       { error: "Erreur interne du serveur: " + error },
-
       { status: 500 }
     );
   }

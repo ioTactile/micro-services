@@ -1,39 +1,54 @@
-import {
-  Article,
-  ArticleComment,
-  ArticleLike,
-  ArticleTag,
-  User,
-} from "@prisma/client";
+import { Article, ArticleComment, ArticleTag, User } from "@prisma/client";
 import { CreateArticleInputs } from "@/modules/react/sections/articles/_schemas/create-article";
 import { UpdateArticleInputs } from "@/modules/react/sections/articles/_schemas/update-article";
+import { CreateArticleCommentInputs } from "@/modules/react/sections/articles/_schemas/create-article-comment";
 
-export interface CreateArticleDto extends CreateArticleInputs {
+// Create Article
+export type CreateArticleDto = {
   authorId: string;
-}
+} & CreateArticleInputs;
 
-export interface UpdateArticleDto extends UpdateArticleInputs {
+// Update Article
+
+export type UpdateArticleDto = {
   id: string;
-}
+} & UpdateArticleInputs;
 
-export interface ExtendedArticles extends Article {
+// Many Articles
+
+type ArticleWithRelations = {
   author: User;
+  articleTags: ArticleTag[];
   _count: {
     articleComments: number;
     articleLikes: number;
   };
-  articleTags: ArticleTag[];
+} & Article;
+
+export type GetArticlesResponse = ArticleWithRelations[];
+
+// One Article
+
+export type GetArticleResponse = ArticleWithRelations;
+
+// Create Article Comment
+
+export interface CreateArticleCommentDto extends CreateArticleCommentInputs {
+  articleId: string;
+  authorId: string;
+  replyToId: string | null;
+  replyToUserId: string | null;
 }
 
-export interface ExtendedArticle extends Article {
+// Article Comments
+
+type ArticleCommentWithRelations = {
   author: User;
-  articleTags: ArticleTag[];
-  articleComments: ArticleComment[] & {
-    replies: ArticleComment[] & {
-      author: User;
-      replyToUser: User;
-    };
+  replies?: (Omit<ArticleComment, "replies"> & {
     author: User;
-  };
-  articleLikes: ArticleLike[];
-}
+    replyToUser: User | null;
+  })[];
+  replyToUser: User | null;
+} & ArticleComment;
+
+export type GetArticleCommentsResponse = ArticleCommentWithRelations[];

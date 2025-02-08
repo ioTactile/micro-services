@@ -1,5 +1,9 @@
-import prisma from "@/prisma";
 import { NextResponse } from "next/server";
+import { TagService } from "@/modules/core/service/tag.service";
+import { PrismaTagRepository } from "@/modules/core/repository/tag.repository";
+
+const tagRepository = new PrismaTagRepository();
+const tagService = new TagService(tagRepository);
 
 export async function GET(
   _request: Request,
@@ -8,9 +12,7 @@ export async function GET(
   const id = (await params).id;
 
   try {
-    const tag = await prisma.tag.findUnique({
-      where: { id },
-    });
+    const tag = await tagService.getTagById(id);
 
     return NextResponse.json(tag, { status: 200 });
   } catch (error) {
@@ -24,14 +26,15 @@ export async function GET(
 export async function PATCH(request: Request) {
   try {
     const { id, name } = await request.json();
-    const tag = await prisma.tag.update({
-      where: { id },
-      data: { name },
+    await tagService.updateTag({
+      id,
+      name,
+      updatedAt: new Date(),
     });
+
     return NextResponse.json(
       {
-        message: "Tag mis à jour avec succès",
-        tag,
+        message: "Tag mis à jour",
       },
       { status: 200 }
     );
@@ -47,13 +50,12 @@ export async function PATCH(request: Request) {
 export async function DELETE(request: Request) {
   try {
     const { id } = await request.json();
-    const tag = await prisma.tag.delete({
-      where: { id },
-    });
+
+    await tagService.deleteTag(id);
+
     return NextResponse.json(
       {
-        message: "Tag supprimé avec succès",
-        tag,
+        message: "Tag supprimé",
       },
       { status: 200 }
     );

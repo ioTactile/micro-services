@@ -9,6 +9,7 @@ import {
   mockArticles,
   mockUpdateArticleDto,
 } from "@/__tests__/fixtures/article.fixture";
+import { beforeEach } from "node:test";
 
 vi.mock("@/lib/globals", () => ({
   axiosInstance: {
@@ -20,6 +21,10 @@ vi.mock("@/lib/globals", () => ({
 }));
 
 describe("ArticleGateway", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it("devrait récupérer la liste des articles", async () => {
     vi.mocked(axiosInstance.get).mockResolvedValueOnce({
       data: mockArticles,
@@ -44,7 +49,7 @@ describe("ArticleGateway", () => {
 
   it("devrait créer un nouvel article", async () => {
     const mockResponse = {
-      message: "Article créé avec succès",
+      message: "Article créé",
       article: mockArticle,
     };
 
@@ -62,7 +67,7 @@ describe("ArticleGateway", () => {
 
   it("devrait mettre à jour un article", async () => {
     const mockResponse = {
-      message: "Article mis à jour avec succès",
+      message: "Article mis à jour",
       article: mockArticle,
     };
 
@@ -79,7 +84,7 @@ describe("ArticleGateway", () => {
   });
 
   it("devrait supprimer un article", async () => {
-    const mockResponse = { message: "Article supprimé avec succès" };
+    const mockResponse = { message: "Article supprimé" };
 
     vi.mocked(axiosInstance.delete).mockResolvedValueOnce({
       data: mockResponse,
@@ -94,7 +99,7 @@ describe("ArticleGateway", () => {
 
   it("devrait créer un nouveau commentaire pour un article", async () => {
     const mockResponse = {
-      message: "Commentaire créé avec succès",
+      message: "Commentaire créé",
       articleComment: mockArticleComment,
     };
 
@@ -113,7 +118,7 @@ describe("ArticleGateway", () => {
   });
 
   it("devrait supprimer un commentaire d'article", async () => {
-    const mockResponse = { message: "Commentaire supprimé avec succès" };
+    const mockResponse = { message: "Commentaire supprimé" };
 
     vi.mocked(axiosInstance.delete).mockResolvedValueOnce({
       data: mockResponse,
@@ -149,7 +154,7 @@ describe("ArticleGateway", () => {
   });
 
   it("devrait supprimer un like pour un article", async () => {
-    const mockResponse = { message: "Like supprimé avec succès" };
+    const mockResponse = { message: "Like supprimé" };
 
     vi.mocked(axiosInstance.delete).mockResolvedValueOnce({
       data: mockResponse,

@@ -1,5 +1,9 @@
-import prisma from "@/prisma";
 import { NextResponse } from "next/server";
+import { PrismaTalkRepository } from "@/modules/core/repository/talk.repository";
+import { TalkService } from "@/modules/core/service/talk.service";
+
+const talkRepository = new PrismaTalkRepository();
+const talkService = new TalkService(talkRepository);
 
 export async function GET(
   _request: Request,
@@ -8,23 +12,8 @@ export async function GET(
   const id = (await params).id;
 
   try {
-    const talk = await prisma.talk.findUnique({
-      where: { id },
-      include: {
-        author: true,
-        talkComments: {
-          include: {
-            replies: {
-              include: {
-                author: true,
-                replyToUser: true,
-              },
-            },
-            author: true,
-          },
-        },
-      },
-    });
+    const talk = await talkService.getTalkById(id);
+
     return NextResponse.json(talk, { status: 200 });
   } catch (error) {
     return NextResponse.json(
@@ -36,15 +25,12 @@ export async function GET(
 
 export async function PATCH(request: Request) {
   try {
-    const { id, title, content, updatedAt } = await request.json();
+    const { id, title, content } = await request.json();
 
-    const talk = await prisma.talk.update({
-      where: { id },
-      data: { title, content, updatedAt },
-    });
+    await talkService.updateTalk({ id, title, content, updatedAt: new Date() });
 
     return NextResponse.json(
-      { message: "Discussion mise à jour avec succès", talk },
+      { message: "Discussion mise à jour" },
       { status: 200 }
     );
   } catch (error) {
@@ -58,9 +44,10 @@ export async function PATCH(request: Request) {
 export async function DELETE(request: Request) {
   try {
     const { id } = await request.json();
-    await prisma.talk.delete({ where: { id } });
+    await talkService.deleteTalk(id);
+
     return NextResponse.json(
-      { message: "Discussion supprimée avec succès" },
+      { message: "Discussion supprimée" },
       { status: 200 }
     );
   } catch (error) {

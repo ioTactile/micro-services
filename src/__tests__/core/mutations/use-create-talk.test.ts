@@ -18,7 +18,7 @@ describe("useCreateTalk", () => {
     );
   };
 
-  it("devrait créer un talk avec succès", async () => {
+  it("devrait créer un talk", async () => {
     vi.mocked(talkGateway.createTalk).mockResolvedValueOnce({
       message: "Discussion créée",
       talk: { ...mockTalk, id: "1" },
