@@ -1,5 +1,5 @@
 import { Button } from "@/app/_components/ui/button";
-import { ExtendedTalkComment } from "@/modules/core/model/TalkComment";
+import { TalkCommentWithRelations } from "@/modules/core/model/Talk";
 import Avatar from "@/modules/react/sections/_components/avatar";
 import { MessageCircle, MinusCircle, PlusCircle } from "lucide-react";
 import TalkCommentForm from "@/modules/react/sections/talks/_components/talk-comment-form";
@@ -7,7 +7,7 @@ import * as React from "react";
 import Link from "next/link";
 
 interface TalkCommentCardProps {
-  talkComment: ExtendedTalkComment;
+  talkComment: TalkCommentWithRelations;
   depth: number;
 }
 

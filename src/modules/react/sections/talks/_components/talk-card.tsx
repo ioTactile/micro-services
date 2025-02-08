@@ -1,4 +1,4 @@
-import { ExtendedTalk } from "@/modules/core/model/Talk";
+import { TalkWithRelations } from "@/modules/core/model/Talk";
 import { getTimeBetweenDateAndNow } from "@/modules/core/utils/date";
 import { getCapitalize } from "@/modules/core/utils/string";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import { MessageCircle, Share2 } from "lucide-react";
 import { useToast } from "@/app/_hooks/use-toast";
 
 interface TalkCardProps {
-  talk: ExtendedTalk;
+  talk: TalkWithRelations;
 }
 
 const TalkCard = ({ talk }: TalkCardProps) => {

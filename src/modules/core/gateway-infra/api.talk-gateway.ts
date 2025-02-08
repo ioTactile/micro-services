@@ -1,23 +1,21 @@
 import { ITalkGateway } from "@/modules/core/gateway/talk.gateway";
-import { Talk, TalkComment } from "@prisma/client";
 import {
   CreateTalkDto,
-  ExtendedTalk,
-  ExtendedTalkWithComments,
+  GetTalkResponse,
+  GetTalksResponse,
   UpdateTalkDto,
 } from "@/modules/core/model/Talk";
-
-import { CreateTalkCommentDto } from "@/modules/core/model/TalkComment";
+import { CreateTalkCommentDto } from "@/modules/core/model/Talk";
 import { axiosInstance } from "@/lib/globals";
 
 export class ApiTalkGateway implements ITalkGateway {
-  async getTalks(): Promise<ExtendedTalk[]> {
-    const response = await axiosInstance.get<ExtendedTalk[]>("/api/talk");
+  async getTalks(): Promise<GetTalksResponse> {
+    const response = await axiosInstance.get<GetTalksResponse>("/api/talk");
     return response.data;
   }
 
-  async getTalkWithComments(id: string): Promise<ExtendedTalkWithComments> {
-    const response = await axiosInstance.get<ExtendedTalkWithComments>(
+  async getTalkWithComments(id: string): Promise<GetTalkResponse> {
+    const response = await axiosInstance.get<GetTalkResponse>(
       `/api/talk/${id}`
     );
     return response.data;
@@ -25,7 +23,6 @@ export class ApiTalkGateway implements ITalkGateway {
 
   async createTalk(talk: CreateTalkDto): Promise<{
     message: string;
-    talk: Talk;
   }> {
     const response = await axiosInstance.post("/api/talk", talk);
     return response.data;
@@ -33,7 +30,6 @@ export class ApiTalkGateway implements ITalkGateway {
 
   async updateTalk(talk: UpdateTalkDto): Promise<{
     message: string;
-    talk: Talk;
   }> {
     const response = await axiosInstance.patch("/api/talk", talk);
     return response.data;
@@ -48,7 +44,6 @@ export class ApiTalkGateway implements ITalkGateway {
 
   async createTalkComment(talkComment: CreateTalkCommentDto): Promise<{
     message: string;
-    talkComment: TalkComment;
   }> {
     const response = await axiosInstance.post(
       `/api/talk/${talkComment.talkId}/comment`,

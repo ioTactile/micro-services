@@ -7,7 +7,6 @@ export const updateTalkSchema = z.object({
     .min(1, "Veuillez remplir ce champ")
     .max(TALK_TITLE_MAX_LENGTH, "300 caractères maximum"),
   content: z.string().nullable(),
-  updatedAt: z.date(),
 });
 
 export type UpdateTalkInputs = z.infer<typeof updateTalkSchema>;

@@ -1,31 +1,34 @@
-import { Article, ArticleComment, ArticleLike } from "@prisma/client";
 import {
   CreateArticleDto,
+  GetArticleCommentsResponse,
+  GetArticleResponse,
+  GetArticlesResponse,
   UpdateArticleDto,
+  CreateArticleCommentDto,
+  CreateOrDeleteArticleLikeDto,
 } from "@/modules/core/model/Article";
-import { CreateArticleCommentDto } from "@/modules/core/model/ArticleComment";
-import { CreateOrDeleteArticleLikeInputs } from "@/modules/react/sections/articles/_schemas/create-article-like";
 
 export interface IArticleGateway {
-  getArticles: () => Promise<Article[]>;
+  getArticles: () => Promise<GetArticlesResponse>;
+
+  getArticle: (id: string) => Promise<GetArticleResponse>;
+
   createArticle: (article: CreateArticleDto) => Promise<{
     message: string;
-    article: Article;
   }>;
-  getArticle: (id: string) => Promise<Article>;
+
   updateArticle: (article: UpdateArticleDto) => Promise<{
     message: string;
-    article: Article;
   }>;
 
   deleteArticle: (id: string) => Promise<{
     message: string;
   }>;
 
-  getArticleComments: (id: string) => Promise<ArticleComment[]>;
+  getArticleComments: (id: string) => Promise<GetArticleCommentsResponse>;
+
   createArticleComment: (articleComment: CreateArticleCommentDto) => Promise<{
     message: string;
-    articleComment: ArticleComment;
   }>;
 
   deleteArticleComment: (
@@ -35,11 +38,10 @@ export interface IArticleGateway {
     message: string;
   }>;
 
-  createArticleLike: (articleLike: CreateOrDeleteArticleLikeInputs) => Promise<{
+  createArticleLike: (articleLike: CreateOrDeleteArticleLikeDto) => Promise<{
     message: string;
-    articleLike: ArticleLike;
   }>;
-  deleteArticleLike: (articleLike: CreateOrDeleteArticleLikeInputs) => Promise<{
+  deleteArticleLike: (articleLike: CreateOrDeleteArticleLikeDto) => Promise<{
     message: string;
   }>;
 }

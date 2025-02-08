@@ -1,28 +1,25 @@
-import { Talk, TalkComment } from "@prisma/client";
 import {
   CreateTalkDto,
-  ExtendedTalkWithComments,
+  GetTalkResponse,
+  GetTalksResponse,
   UpdateTalkDto,
+  CreateTalkCommentDto,
 } from "@/modules/core/model/Talk";
-import { CreateTalkCommentDto } from "@/modules/core/model/TalkComment";
 
 export interface ITalkGateway {
-  getTalks: () => Promise<Talk[]>;
+  getTalks: () => Promise<GetTalksResponse>;
+  getTalkWithComments: (id: string) => Promise<GetTalkResponse>;
   createTalk: (talk: CreateTalkDto) => Promise<{
     message: string;
-    talk: Talk;
   }>;
   updateTalk: (talk: UpdateTalkDto) => Promise<{
     message: string;
-    talk: Talk;
   }>;
   deleteTalk: (id: string) => Promise<{
     message: string;
   }>;
-  getTalkWithComments: (id: string) => Promise<ExtendedTalkWithComments>;
   createTalkComment: (talkComment: CreateTalkCommentDto) => Promise<{
     message: string;
-    talkComment: TalkComment;
   }>;
   deleteTalkComment: (
     talkId: string,

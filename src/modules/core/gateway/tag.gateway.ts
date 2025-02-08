@@ -1,18 +1,19 @@
-import { CreateTagInputs } from "@/modules/react/sections/admin/tags/_schemas/create-tag";
-import { UpdateTagInputs } from "@/modules/react/sections/admin/tags/_schemas/update-tag";
-import { Tag } from "@prisma/client";
+import {
+  CreateTagDto,
+  GetTagsResponse,
+  UpdateTagDto,
+} from "@/modules/core/model/Tag";
 
 export interface ITagGateway {
-  getTags: () => Promise<Tag[]>;
-  createTag: (tag: CreateTagInputs) => Promise<{
+  getTags: () => Promise<GetTagsResponse>;
+  createTag: (tag: CreateTagDto) => Promise<{
     message: string;
-    tag: Tag;
   }>;
+
   deleteTag: (id: string) => Promise<{
     message: string;
   }>;
-  updateTag: (tag: UpdateTagInputs) => Promise<{
+  updateTag: (tag: UpdateTagDto) => Promise<{
     message: string;
-    tag: Tag;
   }>;
 }

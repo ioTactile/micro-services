@@ -1,19 +1,19 @@
 import { axiosInstance } from "@/lib/globals";
 import { ITagGateway } from "@/modules/core/gateway/tag.gateway";
-import { CreateTagInputs } from "@/modules/react/sections/admin/tags/_schemas/create-tag";
-import { UpdateTagInputs } from "@/modules/react/sections/admin/tags/_schemas/update-tag";
-import { Tag } from "@prisma/client";
+import {
+  CreateTagDto,
+  GetTagsResponse,
+  UpdateTagDto,
+} from "@/modules/core/model/Tag";
 
 export class ApTagGateway implements ITagGateway {
-  async getTags(): Promise<Tag[]> {
-    const response = await axiosInstance.get<Tag[]>("/api/tag");
+  async getTags(): Promise<GetTagsResponse> {
+    const response = await axiosInstance.get<GetTagsResponse>("/api/tag");
     return response.data;
   }
 
-  async createTag(
-    tag: CreateTagInputs
-  ): Promise<{ message: string; tag: Tag }> {
-    const response = await axiosInstance.post<{ message: string; tag: Tag }>(
+  async createTag(tag: CreateTagDto): Promise<{ message: string }> {
+    const response = await axiosInstance.post<{ message: string }>(
       "/api/tag",
       tag
     );
@@ -27,10 +27,8 @@ export class ApTagGateway implements ITagGateway {
     return response.data;
   }
 
-  async updateTag(
-    tag: UpdateTagInputs
-  ): Promise<{ message: string; tag: Tag }> {
-    const response = await axiosInstance.put<{ message: string; tag: Tag }>(
+  async updateTag(tag: UpdateTagDto): Promise<{ message: string }> {
+    const response = await axiosInstance.patch<{ message: string }>(
       `/api/tag/${tag.id}`,
       tag
     );

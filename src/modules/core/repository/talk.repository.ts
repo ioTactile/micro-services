@@ -73,7 +73,6 @@ export class PrismaTalkRepository implements ITalkRepository {
       data: {
         title: data.title,
         content: data.content,
-        updatedAt: data.updatedAt,
       },
     });
   }

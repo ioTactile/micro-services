@@ -1,4 +1,4 @@
-import { ExtendedArticle } from "@/modules/core/model/Article";
+import { GetArticleResponse } from "@/modules/core/model/Article";
 import { getTimeBetweenDateAndNow } from "@/modules/core/utils/date";
 import { getCapitalize } from "@/modules/core/utils/string";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import { Heart, MessageCircle, Share2 } from "lucide-react";
 import { useToast } from "@/app/_hooks/use-toast";
 
 interface ArticleCardProps {
-  article: ExtendedArticle;
+  article: GetArticleResponse;
 }
 
 const ArticleCard = ({ article }: ArticleCardProps) => {

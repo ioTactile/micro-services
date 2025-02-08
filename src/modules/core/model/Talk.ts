@@ -11,10 +11,11 @@ export type CreateTalkDto = {
 // Update Talk
 export type UpdateTalkDto = {
   id: string;
+  updatedAt: Date;
 } & UpdateTalkInputs;
 
 // Many Talks
-type TalkWithRelations = {
+export type TalkWithRelations = {
   author: User;
   _count: {
     talkComments: number;
@@ -24,7 +25,7 @@ type TalkWithRelations = {
 export type GetTalksResponse = TalkWithRelations[];
 
 // One Talk
-type TalkCommentWithRelations = {
+export type TalkCommentWithRelations = {
   author: User;
   replyToUser: User | null;
   replies?: (Omit<TalkComment, "replies"> & {
@@ -36,15 +37,15 @@ type TalkCommentWithRelations = {
 export type GetTalkResponse = {
   author: User;
   talkComments: TalkCommentWithRelations[];
-};
+} & Talk;
 
 // Talk Comments
 export type GetTalkCommentsResponse = TalkCommentWithRelations[];
 
 // Create Talk Comment
-export interface CreateTalkCommentDto extends CreateTalkCommentInputs {
+export type CreateTalkCommentDto = {
   talkId: string;
   authorId: string;
   replyToId: string | null;
   replyToUserId: string | null;
-}
+} & CreateTalkCommentInputs;

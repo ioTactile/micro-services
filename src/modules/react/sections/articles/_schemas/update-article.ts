@@ -12,7 +12,6 @@ export const updateArticleSchema = z.object({
   excerpt: z.string().nullable(),
   published: z.boolean().default(false),
   tags: z.array(z.string().cuid()),
-  updatedAt: z.date(),
 });
 
 export type UpdateArticleInputs = z.infer<typeof updateArticleSchema>;

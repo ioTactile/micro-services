@@ -2,6 +2,7 @@ import { Article, ArticleComment, ArticleTag, User } from "@prisma/client";
 import { CreateArticleInputs } from "@/modules/react/sections/articles/_schemas/create-article";
 import { UpdateArticleInputs } from "@/modules/react/sections/articles/_schemas/update-article";
 import { CreateArticleCommentInputs } from "@/modules/react/sections/articles/_schemas/create-article-comment";
+import { CreateOrDeleteArticleLikeInputs } from "@/modules/react/sections/articles/_schemas/create-article-like";
 
 // Create Article
 export type CreateArticleDto = {
@@ -12,6 +13,7 @@ export type CreateArticleDto = {
 
 export type UpdateArticleDto = {
   id: string;
+  updatedAt: Date;
 } & UpdateArticleInputs;
 
 // Many Articles
@@ -33,12 +35,12 @@ export type GetArticleResponse = ArticleWithRelations;
 
 // Create Article Comment
 
-export interface CreateArticleCommentDto extends CreateArticleCommentInputs {
+export type CreateArticleCommentDto = {
   articleId: string;
   authorId: string;
   replyToId: string | null;
   replyToUserId: string | null;
-}
+} & CreateArticleCommentInputs;
 
 // Article Comments
 
@@ -52,3 +54,7 @@ type ArticleCommentWithRelations = {
 } & ArticleComment;
 
 export type GetArticleCommentsResponse = ArticleCommentWithRelations[];
+
+// Create/Delete Article Like
+
+export type CreateOrDeleteArticleLikeDto = CreateOrDeleteArticleLikeInputs;
