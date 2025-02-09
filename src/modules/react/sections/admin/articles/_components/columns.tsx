@@ -75,7 +75,7 @@ const ActionCell = ({ article }: { article: Article }) => {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="text-red-500 focus:bg-red-500 focus:text-white"
-          onClick={() => deleteArticleMutation.mutate(article.id)}
+          onClick={() => deleteArticleMutation.mutate({ id: article.id })}
         >
           Supprimer
         </DropdownMenuItem>
