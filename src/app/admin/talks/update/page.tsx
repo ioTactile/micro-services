@@ -1,14 +1,15 @@
 import NotFoundPage from "@/app/not-found";
-import getTag from "@/modules/core/queries/get-tag";
-import AdminUpdateTagPage from "@/modules/react/pages/AdminUpdateTagPage";
+import getTalkWithComments from "@/modules/core/queries/get-talk-with-comments";
+import AdminUpdateTalkPage from "@/modules/react/pages/AdminUpdateTalkPage";
 import { PageProps } from "@/types/pages-props";
+
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
 
-export default async function AdminUpdateTag({ searchParams }: PageProps) {
+export default async function AdminUpdateTalk({ searchParams }: PageProps) {
   const id = (await searchParams).id as string;
 
   if (!id) {
@@ -18,13 +19,13 @@ export default async function AdminUpdateTag({ searchParams }: PageProps) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["tags", id],
-    queryFn: () => getTag(id),
+    queryKey: ["talks", id],
+    queryFn: () => getTalkWithComments(id),
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AdminUpdateTagPage />
+      <AdminUpdateTalkPage />
     </HydrationBoundary>
   );
 }

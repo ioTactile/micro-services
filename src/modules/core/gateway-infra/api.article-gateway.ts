@@ -3,6 +3,7 @@ import {
   CreateArticleDto,
   CreateOrDeleteArticleLikeDto,
   DeleteArticleCommentDto,
+  DeleteArticleDto,
   GetArticleCommentsResponse,
   GetArticleResponse,
   GetArticlesResponse,
@@ -48,11 +49,11 @@ export class ApiArticleGateway implements IArticleGateway {
     return response.data;
   }
 
-  async deleteArticle(id: string): Promise<{
+  async deleteArticle(article: DeleteArticleDto): Promise<{
     message: string;
   }> {
-    const response = await axiosInstance.delete(`/api/blog/${id}`, {
-      data: { id },
+    const response = await axiosInstance.delete(`/api/blog/${article.id}`, {
+      data: { id: article.id },
     });
     return response.data;
   }

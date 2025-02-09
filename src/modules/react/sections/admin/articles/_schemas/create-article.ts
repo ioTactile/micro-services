@@ -11,7 +11,7 @@ export const createArticleSchema = z.object({
   imageName: z.string().nullable(),
   excerpt: z.string().nullable(),
   published: z.boolean().default(false),
-  tags: z.array(z.string().cuid()),
+  articleTags: z.array(z.string().cuid()),
 });
 
 export type CreateArticleInputs = z.infer<typeof createArticleSchema>;

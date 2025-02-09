@@ -20,13 +20,11 @@ import { useCreateTag } from "@/modules/core/mutations/useCreateTag";
 import { useUpdateTag } from "@/modules/core/mutations/useUpdateTag";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { GetTagResponse } from "@/modules/core/model/Tag";
 
 interface TagFormProps {
   mode: "create" | "update";
-  initialData?: {
-    id: string;
-    name: string;
-  };
+  initialData?: GetTagResponse;
 }
 
 const TagForm = ({ mode, initialData }: TagFormProps) => {

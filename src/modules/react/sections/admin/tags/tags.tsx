@@ -2,7 +2,7 @@
 
 import useTags from "@/modules/core/hooks/use-tags";
 import TagsHeader from "@/modules/react/sections/admin/tags/_components/tags-header";
-import { DataTable } from "@/modules/react/sections/admin/tags/_components/data-table";
+import { DataTable } from "@/modules/react/sections/_components/data-table";
 import { columns } from "@/modules/react/sections/admin/tags/_components/columns";
 import { getFormatedDate } from "@/modules/core/utils/date";
 

@@ -73,7 +73,7 @@ export class PrismaArticleRepository implements IArticleRepository {
         imageName: data.imageName,
         authorId: data.authorId,
         articleTags: {
-          create: data.tags.map((tag: string) => ({
+          create: data.articleTags?.map((tag: string) => ({
             tagId: tag,
           })),
         },
@@ -102,7 +102,7 @@ export class PrismaArticleRepository implements IArticleRepository {
         imageUrl: data.imageUrl,
         imageName: data.imageName,
         articleTags: {
-          create: data.tags.map((tag: string) => ({
+          create: data.articleTags?.map((tag: string) => ({
             tagId: tag,
           })),
         },

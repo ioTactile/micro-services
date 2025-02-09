@@ -5,17 +5,15 @@ import { Button } from "@/app/_components/ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@clerk/nextjs";
-import { useCreateTalk } from "@/modules/core/mutations/useCreateTalk";
 import {
   createArticleSchema,
   CreateArticleInputs,
-} from "@/modules/react/sections/articles/_schemas/create-article";
+} from "@/modules/react/sections/admin/articles/_schemas/create-article";
 import { useEffect, useState } from "react";
 import {
   TALK_TITLE_MAX_LENGTH,
   TALK_EXCERPT_MAX_LENGTH,
 } from "@/app/_constants/app";
-
 import {
   Form,
   FormControl,
@@ -26,8 +24,16 @@ import {
 import { UploadDropzone } from "@/lib/uploadthing";
 import { useToast } from "@/app/_hooks/use-toast";
 import Image from "next/image";
+import { useUpdateArticle } from "@/modules/core/mutations/useUpdateArticle";
+import { useCreateArticle } from "@/modules/core/mutations/useCreateArticle";
+import { GetArticleResponse } from "@/modules/core/model/Article";
+import { useRouter } from "next/navigation";
+interface ArticleFormProps {
+  mode: "create" | "update";
+  initialData?: GetArticleResponse;
+}
 
-const ArticleForm = () => {
+const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
   const { toast } = useToast();
 
   const form = useForm<CreateArticleInputs>({
@@ -38,7 +44,7 @@ const ArticleForm = () => {
       imageUrl: null,
       imageName: null,
       excerpt: null,
-      tags: [],
+      articleTags: [],
       published: false,
     },
     mode: "onChange",
@@ -53,26 +59,71 @@ const ArticleForm = () => {
     reset,
   } = form;
 
+  useEffect(() => {
+    if (initialData) {
+      setValue("title", initialData.title);
+      setValue("content", initialData.content);
+      setValue("imageUrl", initialData.imageUrl);
+      setValue("imageName", initialData.imageName);
+      setValue("excerpt", initialData.excerpt);
+      setValue(
+        "articleTags",
+        initialData.articleTags.map((tag) => tag.tagId)
+      );
+      setValue("published", initialData.published);
+    }
+  }, [initialData, setValue]);
+
   const { user } = useUser();
 
-  const createTalkMutation = useCreateTalk();
+  const router = useRouter();
+
+  const updateArticleMutation = useUpdateArticle();
+  const createArticleMutation = useCreateArticle();
 
   const handleCreateArticleSubmit: SubmitHandler<CreateArticleInputs> = (
     data
   ) => {
     if (!user) return;
 
-    const talk = {
+    const article = {
       title: data.title,
-      content: data.content || null,
-      authorId: user.id,
+      content: data.content,
+      imageUrl: data.imageUrl || null,
+      imageName: data.imageName || null,
+      excerpt: data.excerpt || null,
+      published: data.published,
+      articleTags: data.articleTags,
     };
 
-    createTalkMutation.mutate(talk, {
-      onSuccess: () => {
-        reset();
-      },
-    });
+    if (mode === "create") {
+      createArticleMutation.mutate(
+        {
+          ...article,
+          authorId: user.id,
+        },
+        {
+          onSuccess: () => {
+            reset();
+            router.push("/admin/articles");
+          },
+        }
+      );
+    } else {
+      updateArticleMutation.mutate(
+        {
+          ...article,
+          id: initialData!.id,
+          updatedAt: new Date(),
+        },
+        {
+          onSuccess: () => {
+            reset();
+            router.push("/admin/articles");
+          },
+        }
+      );
+    }
   };
 
   const [titleSize, setTitleSize] = useState<number>(0);
@@ -198,7 +249,7 @@ const ArticleForm = () => {
           disabled={!isValid}
           className="rounded-full self-end"
         >
-          Publier
+          {mode === "create" ? "Créer" : "Mettre à jour"}
         </Button>
       </form>
     </Form>

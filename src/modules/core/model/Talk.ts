@@ -53,3 +53,8 @@ export type CreateTalkCommentDto = {
 
 // Delete Talk Comment
 export type DeleteTalkCommentDto = DeleteTalkCommentInputs;
+
+// Delete Talk
+export type DeleteTalkDto = {
+  id: string;
+};
