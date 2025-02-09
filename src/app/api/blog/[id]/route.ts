@@ -1,18 +1,28 @@
 import { NextResponse } from "next/server";
 import { PrismaArticleRepository } from "@/modules/core/repository/article.repository";
 import { ArticleService } from "@/modules/core/service/article.service";
+import { GetArticleResponse } from "@/modules/core/model/Article";
 
 const articleRepository = new PrismaArticleRepository();
 const articleService = new ArticleService(articleRepository);
 
 export async function GET(
   _request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ identifier: string }> }
 ) {
-  const id = (await params).id;
+  const identifier = (await params).identifier;
 
   try {
-    const article = await articleService.getArticleById(id);
+    let article: GetArticleResponse | null;
+
+    // Vérifie si l'identifiant est un CUID
+    if (/^c[a-z0-9]{24,27}$/i.test(identifier)) {
+      console.log("Recherche par ID");
+      article = await articleService.getArticleById(identifier);
+    } else {
+      console.log("Recherche par slug");
+      article = await articleService.getArticleBySlug(identifier);
+    }
 
     if (!article) {
       return NextResponse.json(
@@ -39,7 +49,7 @@ export async function PATCH(request: Request) {
       excerpt,
       imageUrl,
       imageName,
-      tags,
+      articleTags,
       published,
       updatedAt,
     } = await request.json();
@@ -53,7 +63,7 @@ export async function PATCH(request: Request) {
       imageName,
       published,
       updatedAt,
-      tags,
+      articleTags,
     });
 
     return NextResponse.json(

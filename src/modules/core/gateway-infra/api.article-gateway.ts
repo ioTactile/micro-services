@@ -18,7 +18,14 @@ export class ApiArticleGateway implements IArticleGateway {
     return response.data;
   }
 
-  async getArticle(id: string): Promise<GetArticleResponse> {
+  async getArticleBySlug(slug: string): Promise<GetArticleResponse> {
+    const response = await axiosInstance.get<GetArticleResponse>(
+      `/api/blog/${slug}`
+    );
+    return response.data;
+  }
+
+  async getArticleById(id: string): Promise<GetArticleResponse> {
     const response = await axiosInstance.get<GetArticleResponse>(
       `/api/blog/${id}`
     );

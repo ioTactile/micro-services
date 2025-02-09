@@ -12,10 +12,12 @@ import {
 
 export interface IArticleGateway {
   getArticles: () => Promise<GetArticlesResponse>;
-  getArticle: (id: string) => Promise<GetArticleResponse>;
+  getArticleBySlug: (slug: string) => Promise<GetArticleResponse>;
+  getArticleById: (id: string) => Promise<GetArticleResponse>;
   createArticle: (article: CreateArticleDto) => Promise<{
     message: string;
   }>;
+
   updateArticle: (article: UpdateArticleDto) => Promise<{
     message: string;
   }>;

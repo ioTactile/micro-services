@@ -1,5 +1,4 @@
-import getArticle from "@/modules/core/queries/get-article";
-import { getIdFromSlug } from "@/modules/core/utils/string";
+import getArticleBySlug from "@/modules/core/queries/get-article-by-slug";
 import ArticlePage from "@/modules/react/pages/ArticlePage";
 import { PageProps } from "@/types/pages-props";
 
@@ -11,13 +10,12 @@ import {
 
 export default async function Article({ params }: PageProps) {
   const slug = (await params).slug;
-  const id = getIdFromSlug(slug);
 
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
     queryKey: ["article", slug],
-    queryFn: () => getArticle(id),
+    queryFn: () => getArticleBySlug(slug),
   });
 
   return (

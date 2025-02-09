@@ -20,6 +20,10 @@ export class ArticleService {
     return await this.articleRepository.findById(id);
   }
 
+  async getArticleBySlug(slug: string): Promise<GetArticleResponse | null> {
+    return await this.articleRepository.findBySlug(slug);
+  }
+
   async createArticle(data: CreateArticleDto): Promise<void> {
     return await this.articleRepository.create(data);
   }

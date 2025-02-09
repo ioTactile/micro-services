@@ -13,6 +13,7 @@ import {
 
 export interface IArticleRepository {
   findMany(): Promise<GetArticlesResponse>;
+  findBySlug(slug: string): Promise<GetArticleResponse | null>;
   findById(id: string): Promise<GetArticleResponse | null>;
   create(data: CreateArticleDto): Promise<void>;
   update(data: UpdateArticleDto): Promise<void>;
@@ -39,6 +40,22 @@ export class PrismaArticleRepository implements IArticleRepository {
       },
       orderBy: {
         createdAt: "desc",
+      },
+    });
+  }
+
+  async findBySlug(slug: string): Promise<GetArticleResponse | null> {
+    return await prisma.article.findUnique({
+      where: { slug: slug },
+      include: {
+        author: true,
+        articleTags: true,
+        _count: {
+          select: {
+            articleComments: true,
+            articleLikes: true,
+          },
+        },
       },
     });
   }
