@@ -2,6 +2,7 @@ import { axiosInstance } from "@/lib/globals";
 import { ITagGateway } from "@/modules/core/gateway/tag.gateway";
 import {
   CreateTagDto,
+  GetTagResponse,
   GetTagsResponse,
   UpdateTagDto,
 } from "@/modules/core/model/Tag";
@@ -9,6 +10,11 @@ import {
 export class ApTagGateway implements ITagGateway {
   async getTags(): Promise<GetTagsResponse> {
     const response = await axiosInstance.get<GetTagsResponse>("/api/tag");
+    return response.data;
+  }
+
+  async getTagById(id: string): Promise<GetTagResponse> {
+    const response = await axiosInstance.get<GetTagResponse>(`/api/tag/${id}`);
     return response.data;
   }
 
@@ -22,7 +28,12 @@ export class ApTagGateway implements ITagGateway {
 
   async deleteTag(id: string): Promise<{ message: string }> {
     const response = await axiosInstance.delete<{ message: string }>(
-      `/api/tag/${id}`
+      `/api/tag/${id}`,
+      {
+        data: {
+          id,
+        },
+      }
     );
     return response.data;
   }

@@ -1,6 +1,7 @@
 import { ITalkGateway } from "@/modules/core/gateway/talk.gateway";
 import {
   CreateTalkDto,
+  DeleteTalkCommentDto,
   GetTalkResponse,
   GetTalksResponse,
   UpdateTalkDto,
@@ -38,7 +39,11 @@ export class ApiTalkGateway implements ITalkGateway {
   async deleteTalk(id: string): Promise<{
     message: string;
   }> {
-    const response = await axiosInstance.delete(`/api/talk/${id}`);
+    const response = await axiosInstance.delete(`/api/talk/${id}`, {
+      data: {
+        id,
+      },
+    });
     return response.data;
   }
 
@@ -52,14 +57,14 @@ export class ApiTalkGateway implements ITalkGateway {
     return response.data;
   }
 
-  async deleteTalkComment(
-    talkId: string,
-    talkCommentId: string
-  ): Promise<{
+  async deleteTalkComment(talkComment: DeleteTalkCommentDto): Promise<{
     message: string;
   }> {
     const response = await axiosInstance.delete(
-      `/api/talk/${talkId}/comment/${talkCommentId}`
+      `/api/talk/${talkComment.talkId}/comment/${talkComment.talkCommentId}`,
+      {
+        data: talkComment,
+      }
     );
     return response.data;
   }

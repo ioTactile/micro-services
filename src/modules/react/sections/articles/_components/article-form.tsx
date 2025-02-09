@@ -68,8 +68,11 @@ const ArticleForm = () => {
       authorId: user.id,
     };
 
-    createTalkMutation.mutate(talk);
-    reset();
+    createTalkMutation.mutate(talk, {
+      onSuccess: () => {
+        reset();
+      },
+    });
   };
 
   const [titleSize, setTitleSize] = useState<number>(0);

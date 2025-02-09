@@ -6,7 +6,7 @@ const useArticle = (slug: string) => {
   const id = getIdFromSlug(slug);
 
   return useQuery({
-    queryKey: ["article", id],
+    queryKey: ["articles", id],
     queryFn: () => getArticle(id),
   });
 };

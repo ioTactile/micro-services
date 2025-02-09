@@ -7,9 +7,9 @@ const talkService = new TalkService(talkRepository);
 
 export async function DELETE(request: Request) {
   try {
-    const { commentId } = await request.json();
+    const { talkId, talkCommentId } = await request.json();
 
-    await talkService.deleteTalkComment(commentId);
+    await talkService.deleteTalkComment({ talkId, talkCommentId });
 
     return NextResponse.json(
       { message: "Commentaire supprimé" },

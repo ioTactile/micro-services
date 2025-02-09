@@ -2,6 +2,7 @@ import { IArticleRepository } from "@/modules/core/repository/article.repository
 import {
   CreateArticleCommentDto,
   CreateArticleDto,
+  DeleteArticleCommentDto,
   GetArticleCommentsResponse,
   GetArticleResponse,
   GetArticlesResponse,
@@ -41,8 +42,8 @@ export class ArticleService {
     return await this.articleRepository.createArticleComment(data);
   }
 
-  async deleteArticleComment(id: string): Promise<void> {
-    return await this.articleRepository.deleteArticleComment(id);
+  async deleteArticleComment(data: DeleteArticleCommentDto): Promise<void> {
+    return await this.articleRepository.deleteArticleComment(data);
   }
 
   async likeArticle(articleId: string, userId: string): Promise<void> {

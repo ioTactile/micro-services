@@ -2,6 +2,7 @@ import { ITalkRepository } from "@/modules/core/repository/talk.repository";
 import {
   CreateTalkCommentDto,
   CreateTalkDto,
+  DeleteTalkCommentDto,
   GetTalkCommentsResponse,
   GetTalkResponse,
   GetTalksResponse,
@@ -39,7 +40,7 @@ export class TalkService {
     return await this.talkRepository.createTalkComment(data);
   }
 
-  async deleteTalkComment(id: string): Promise<void> {
-    return await this.talkRepository.deleteTalkComment(id);
+  async deleteTalkComment(data: DeleteTalkCommentDto): Promise<void> {
+    return await this.talkRepository.deleteTalkComment(data);
   }
 }

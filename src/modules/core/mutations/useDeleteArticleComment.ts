@@ -1,16 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { articleGateway } from "@/modules/core/gateway-infra/api.article-gateway";
-import { DeleteArticleCommentInputs } from "@/modules/react/sections/articles/_schemas/delete-article-comment";
+import { DeleteArticleCommentDto } from "@/modules/core/model/Article";
 
 export function useDeleteArticleComment() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (articleComment: DeleteArticleCommentInputs) =>
-      articleGateway.deleteArticleComment(
-        articleComment.articleId,
-        articleComment.articleCommentId
-      ),
+    mutationFn: (articleComment: DeleteArticleCommentDto) =>
+      articleGateway.deleteArticleComment(articleComment),
 
     onSettled: async (_data, error, variables) => {
       if (error) {

@@ -1,6 +1,7 @@
 import { IArticleGateway } from "@/modules/core/gateway/article.gateway";
 import {
   CreateArticleDto,
+  CreateOrDeleteArticleLikeDto,
   DeleteArticleCommentDto,
   GetArticleCommentsResponse,
   GetArticleResponse,
@@ -9,7 +10,6 @@ import {
 } from "@/modules/core/model/Article";
 import { CreateArticleCommentDto } from "@/modules/core/model/Article";
 import { axiosInstance } from "@/lib/globals";
-import { CreateOrDeleteArticleLikeInputs } from "@/modules/react/sections/articles/_schemas/create-article-like";
 
 export class ApiArticleGateway implements IArticleGateway {
   async getArticles(): Promise<GetArticlesResponse> {
@@ -79,9 +79,7 @@ export class ApiArticleGateway implements IArticleGateway {
     return response.data;
   }
 
-  async createArticleLike(
-    articleLike: CreateOrDeleteArticleLikeInputs
-  ): Promise<{
+  async createArticleLike(articleLike: CreateOrDeleteArticleLikeDto): Promise<{
     message: string;
   }> {
     const response = await axiosInstance.patch(
@@ -91,9 +89,7 @@ export class ApiArticleGateway implements IArticleGateway {
     return response.data;
   }
 
-  async deleteArticleLike(
-    articleLike: CreateOrDeleteArticleLikeInputs
-  ): Promise<{
+  async deleteArticleLike(articleLike: CreateOrDeleteArticleLikeDto): Promise<{
     message: string;
   }> {
     const response = await axiosInstance.delete(

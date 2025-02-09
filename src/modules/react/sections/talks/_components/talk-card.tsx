@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Avatar from "@/modules/react/sections/_components/avatar";
 import { Button } from "@/app/_components/ui/button";
 import { MessageCircle, Share2 } from "lucide-react";
-import { useToast } from "@/app/_hooks/use-toast";
+import { useShare } from "@/app/_hooks/use-share";
 
 interface TalkCardProps {
   talk: TalkWithRelations;
@@ -14,19 +14,7 @@ interface TalkCardProps {
 const TalkCard = ({ talk }: TalkCardProps) => {
   const router = useRouter();
 
-  const { toast } = useToast();
-
-  function handleShare(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault();
-    e.stopPropagation();
-    navigator.clipboard.writeText(
-      `${window.location.origin}/talks/${talk.id}/${talk.title}`
-    );
-    toast({
-      title: "Succès",
-      description: "Le lien a été copié dans le presse-papiers",
-    });
-  }
+  const { handleShare } = useShare();
 
   return (
     <div
@@ -64,7 +52,13 @@ const TalkCard = ({ talk }: TalkCardProps) => {
           variant="outline"
           size="sm"
           className="rounded-full"
-          onClick={handleShare}
+          onClick={(e) =>
+            handleShare(
+              `${window.location.origin}/talks/${talk.id}/${talk.title}`,
+              "Le lien a été copié dans le presse-papiers",
+              e
+            )
+          }
         >
           <Share2 className="w-4 h-4" />
           Partager

@@ -7,9 +7,12 @@ const articleService = new ArticleService(articleRepository);
 
 export async function DELETE(request: Request) {
   try {
-    const { commentId } = await request.json();
+    const { articleId, articleCommentId } = await request.json();
 
-    await articleService.deleteArticleComment(commentId);
+    await articleService.deleteArticleComment({
+      articleId,
+      articleCommentId,
+    });
 
     return NextResponse.json(
       { message: "Commentaire supprimé" },

@@ -1,5 +1,6 @@
 import prisma from "@/prisma";
 import {
+  DeleteArticleCommentDto,
   GetArticleCommentsResponse,
   GetArticleResponse,
   GetArticlesResponse,
@@ -18,7 +19,7 @@ export interface IArticleRepository {
   delete(id: string): Promise<void>;
   getArticleComments(articleId: string): Promise<GetArticleCommentsResponse>;
   createArticleComment(data: CreateArticleCommentDto): Promise<void>;
-  deleteArticleComment(id: string): Promise<void>;
+  deleteArticleComment(data: DeleteArticleCommentDto): Promise<void>;
   like(articleId: string, userId: string): Promise<void>;
   unlike(articleId: string, userId: string): Promise<void>;
 }
@@ -146,9 +147,9 @@ export class PrismaArticleRepository implements IArticleRepository {
     });
   }
 
-  async deleteArticleComment(id: string): Promise<void> {
+  async deleteArticleComment(data: DeleteArticleCommentDto): Promise<void> {
     await prisma.articleComment.delete({
-      where: { id },
+      where: { id: data.articleCommentId, articleId: data.articleId },
     });
   }
 

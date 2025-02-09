@@ -41,6 +41,7 @@ export async function PATCH(request: Request) {
       imageName,
       tags,
       published,
+      updatedAt,
     } = await request.json();
 
     await articleService.updateArticle({
@@ -51,7 +52,7 @@ export async function PATCH(request: Request) {
       imageUrl,
       imageName,
       published,
-      updatedAt: new Date(),
+      updatedAt,
       tags,
     });
 

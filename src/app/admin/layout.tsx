@@ -10,6 +10,8 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
 } from "@/app/_components/ui/breadcrumb";
 import { headers } from "next/headers";
 
@@ -18,8 +20,9 @@ export default async function AdminLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headerList = await headers();
-  const pathname = headerList.get("x-current-path");
+  const headersList = await headers();
+  const pathname = headersList.get("x-current-path") || "";
+  const pathnameArray = pathname.split("/").filter(Boolean);
 
   return (
     <SidebarProvider>
@@ -30,15 +33,27 @@ export default async function AdminLayout({
           <Separator orientation="vertical" className="mr-2 h-4" />
           <Breadcrumb>
             <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/admin">
-                  {pathname?.split("/").pop()}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              {/* <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-              </BreadcrumbItem> */}
+                <BreadcrumbLink href="/admin">admin</BreadcrumbLink>
+              </BreadcrumbItem>
+              {pathnameArray && pathnameArray.length > 1 && (
+                <>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href={`/admin/${pathnameArray[2]}`}>
+                      {pathnameArray[2]}
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                </>
+              )}
+              {pathnameArray && pathnameArray.length > 2 && (
+                <>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>{pathnameArray[3]}</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </>
+              )}
             </BreadcrumbList>
           </Breadcrumb>
         </div>
