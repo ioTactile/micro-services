@@ -28,6 +28,7 @@ import { useUpdateArticle } from "@/modules/core/mutations/useUpdateArticle";
 import { useCreateArticle } from "@/modules/core/mutations/useCreateArticle";
 import { GetArticleResponse } from "@/modules/core/model/Article";
 import { useRouter } from "next/navigation";
+import SelectTags from "@/modules/react/sections/admin/articles/_components/select-tags";
 interface ArticleFormProps {
   mode: "create" | "update";
   initialData?: GetArticleResponse;
@@ -243,6 +244,8 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
           }}
           className="rounded-xl ut-button:w-48 ut-button:bg-primary ut-button:text-primary-foreground ut-label:text-foreground ut-allowed-content:text-foreground"
         />
+
+        <SelectTags control={control} />
 
         <Button
           type="submit"

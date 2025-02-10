@@ -13,7 +13,7 @@ export function useDeleteArticleLike() {
         console.error(error);
       } else {
         await queryClient.invalidateQueries({
-          queryKey: ["article", variables.articleId],
+          queryKey: ["articles", variables.articleId],
         });
       }
     },

@@ -14,7 +14,7 @@ export default async function Article({ params }: PageProps) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["article", slug],
+    queryKey: ["articles", slug],
     queryFn: () => getArticleBySlug(slug),
   });
 

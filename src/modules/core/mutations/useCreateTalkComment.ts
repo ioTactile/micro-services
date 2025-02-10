@@ -13,7 +13,7 @@ export function useCreateTalkComment() {
         console.error(error);
       } else {
         await queryClient.invalidateQueries({
-          queryKey: ["talk", variables.talkId],
+          queryKey: ["talks", variables.talkId],
         });
       }
     },

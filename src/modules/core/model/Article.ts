@@ -21,7 +21,11 @@ export type UpdateArticleDto = {
 
 type ArticleWithRelations = {
   author: User;
-  articleTags: ArticleTag[];
+  articleTags: (ArticleTag & {
+    tag: {
+      name: string;
+    };
+  })[];
   _count: {
     articleComments: number;
     articleLikes: number;

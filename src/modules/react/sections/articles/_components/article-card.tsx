@@ -6,6 +6,7 @@ import Avatar from "@/modules/react/sections/_components/avatar";
 import { Button } from "@/app/_components/ui/button";
 import { Heart, MessageCircle, Share2 } from "lucide-react";
 import { useShare } from "@/app/_hooks/use-share";
+import Tags from "@/modules/react/sections/_components/tags";
 
 interface ArticleCardProps {
   article: GetArticleResponse;
@@ -43,7 +44,9 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
 
       <p>{article.excerpt}</p>
 
-      <div className="flex items-center gap-1">
+      <Tags tags={article.articleTags} />
+
+      <div className="flex items-center gap-3">
         <Button variant="outline" size="sm" className="rounded-full">
           <Heart className="w-4 h-4" />
           {article._count.articleLikes}

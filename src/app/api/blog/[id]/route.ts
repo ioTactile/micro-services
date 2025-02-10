@@ -8,18 +8,22 @@ const articleService = new ArticleService(articleRepository);
 
 export async function GET(
   _request: Request,
-  { params }: { params: Promise<{ identifier: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const identifier = (await params).identifier;
+  const identifier = (await params).id;
+  console.log("identifier", identifier);
 
   try {
-    let article: GetArticleResponse | null;
+    let article: GetArticleResponse | null = null;
 
     // Vérifie si l'identifiant est un CUID
     if (/^c[a-z0-9]{24,27}$/i.test(identifier)) {
       console.log("Recherche par ID");
       article = await articleService.getArticleById(identifier);
-    } else {
+    }
+
+    // Vérifie si l'identifiant est un slug (ex:article-sur-l'escalade-1739205155676)
+    if (!/^c[a-z0-9]{24,27}$/i.test(identifier)) {
       console.log("Recherche par slug");
       article = await articleService.getArticleBySlug(identifier);
     }

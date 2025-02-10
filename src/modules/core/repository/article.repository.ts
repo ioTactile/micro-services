@@ -30,7 +30,15 @@ export class PrismaArticleRepository implements IArticleRepository {
     return await prisma.article.findMany({
       include: {
         author: true,
-        articleTags: true,
+        articleTags: {
+          include: {
+            tag: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
         _count: {
           select: {
             articleComments: true,
@@ -45,11 +53,20 @@ export class PrismaArticleRepository implements IArticleRepository {
   }
 
   async findBySlug(slug: string): Promise<GetArticleResponse | null> {
+    console.log("slug", slug);
     return await prisma.article.findUnique({
       where: { slug: slug },
       include: {
         author: true,
-        articleTags: true,
+        articleTags: {
+          include: {
+            tag: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
         _count: {
           select: {
             articleComments: true,
@@ -65,7 +82,15 @@ export class PrismaArticleRepository implements IArticleRepository {
       where: { id },
       include: {
         author: true,
-        articleTags: true,
+        articleTags: {
+          include: {
+            tag: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
         _count: {
           select: {
             articleComments: true,
