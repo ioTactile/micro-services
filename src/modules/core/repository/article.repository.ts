@@ -115,8 +115,8 @@ export class PrismaArticleRepository implements IArticleRepository {
         imageName: data.imageName,
         authorId: data.authorId,
         articleTags: {
-          create: data.articleTags?.map((tag: string) => ({
-            tagId: tag,
+          create: data.articleTags?.map((tag: { id: string }) => ({
+            tagId: tag.id,
           })),
         },
       },
@@ -144,8 +144,9 @@ export class PrismaArticleRepository implements IArticleRepository {
         imageUrl: data.imageUrl,
         imageName: data.imageName,
         articleTags: {
-          create: data.articleTags?.map((tag: string) => ({
-            tagId: tag,
+          deleteMany: {},
+          create: data.articleTags?.map((tag: { id: string }) => ({
+            tagId: tag.id,
           })),
         },
       },
@@ -191,7 +192,7 @@ export class PrismaArticleRepository implements IArticleRepository {
 
   async deleteArticleComment(data: DeleteArticleCommentDto): Promise<void> {
     await prisma.articleComment.delete({
-      where: { id: data.articleCommentId, articleId: data.articleId },
+      where: { id: data.articleCommentId },
     });
   }
 
@@ -207,3 +208,5 @@ export class PrismaArticleRepository implements IArticleRepository {
     });
   }
 }
+
+export const articleRepository = new PrismaArticleRepository();

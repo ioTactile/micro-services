@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaTalkRepository } from "@/modules/core/repository/talk.repository";
-import { TalkService } from "@/modules/core/service/talk.service";
-
-const talkRepository = new PrismaTalkRepository();
-const talkService = new TalkService(talkRepository);
+import { talkService } from "@/modules/core/service/talk.service";
 
 export async function GET() {
   try {

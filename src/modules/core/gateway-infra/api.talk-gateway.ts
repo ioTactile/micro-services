@@ -1,7 +1,6 @@
 import { ITalkGateway } from "@/modules/core/gateway/talk.gateway";
 import {
   CreateTalkDto,
-  DeleteTalkCommentDto,
   DeleteTalkDto,
   GetTalkResponse,
   GetTalksResponse,
@@ -58,13 +57,19 @@ export class ApiTalkGateway implements ITalkGateway {
     return response.data;
   }
 
-  async deleteTalkComment(talkComment: DeleteTalkCommentDto): Promise<{
+  async deleteTalkComment(
+    talkId: string,
+    talkCommentId: string
+  ): Promise<{
     message: string;
   }> {
     const response = await axiosInstance.delete(
-      `/api/talk/${talkComment.talkId}/comment/${talkComment.talkCommentId}`,
+      `/api/talk/${talkId}/comment/${talkCommentId}`,
       {
-        data: talkComment,
+        data: {
+          talkId,
+          talkCommentId,
+        },
       }
     );
     return response.data;

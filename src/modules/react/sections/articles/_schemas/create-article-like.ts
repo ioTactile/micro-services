@@ -1,10 +1,8 @@
 import { z } from "zod";
 
-export const createOrDeleteArticleLikeSchema = z.object({
+export const createArticleLikeSchema = z.object({
   articleId: z.string().cuid(),
   userId: z.string().cuid(),
 });
 
-export type CreateOrDeleteArticleLikeInputs = z.infer<
-  typeof createOrDeleteArticleLikeSchema
->;
+export type CreateArticleLikeInputs = z.infer<typeof createArticleLikeSchema>;

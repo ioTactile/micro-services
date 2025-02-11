@@ -2,7 +2,6 @@ import { Talk, TalkComment, User } from "@prisma/client";
 import { CreateTalkInputs } from "@/modules/react/sections/talks/_schemas/create-talk";
 import { UpdateTalkInputs } from "@/modules/react/sections/talks/_schemas/update-talk";
 import { CreateTalkCommentInputs } from "@/modules/react/sections/talks/_schemas/create-talk-comment";
-import { DeleteTalkCommentInputs } from "@/modules/react/sections/talks/_schemas/delete-talk-comment";
 
 // Create Talk
 export type CreateTalkDto = {
@@ -50,9 +49,6 @@ export type CreateTalkCommentDto = {
   replyToId: string | null;
   replyToUserId: string | null;
 } & CreateTalkCommentInputs;
-
-// Delete Talk Comment
-export type DeleteTalkCommentDto = DeleteTalkCommentInputs;
 
 // Delete Talk
 export type DeleteTalkDto = {

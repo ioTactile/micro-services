@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server";
-import { TagService } from "@/modules/core/service/tag.service";
-import { PrismaTagRepository } from "@/modules/core/repository/tag.repository";
-
-const tagRepository = new PrismaTagRepository();
-const tagService = new TagService(tagRepository);
+import { tagService } from "@/modules/core/service/tag.service";
 
 export async function GET() {
   try {

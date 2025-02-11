@@ -1,7 +1,7 @@
 import {
   CreateArticleCommentDto,
   CreateArticleDto,
-  CreateOrDeleteArticleLikeDto,
+  CreateArticleLikeDto,
   DeleteArticleCommentDto,
   UpdateArticleDto,
 } from "@/modules/core/model/Article";
@@ -34,7 +34,7 @@ export const mockArticleDto: CreateArticleDto = {
   imageName: "test-image",
   excerpt: "Test excerpt",
   published: true,
-  tags: [],
+  articleTags: [],
 };
 
 export const mockUpdateArticleDto: UpdateArticleDto = {
@@ -72,7 +72,7 @@ export const mockArticleComments: ArticleComment[] = [
   { ...mockArticleComment, id: "2" },
 ];
 
-export const mockArticleLikeDto: CreateOrDeleteArticleLikeDto = {
+export const mockArticleLikeDto: CreateArticleLikeDto = {
   articleId: "1",
   userId: "user_1",
 };

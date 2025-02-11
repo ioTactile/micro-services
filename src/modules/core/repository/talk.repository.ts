@@ -6,7 +6,6 @@ import {
   UpdateTalkDto,
   CreateTalkDto,
   CreateTalkCommentDto,
-  DeleteTalkCommentDto,
 } from "@/modules/core/model/Talk";
 
 export interface ITalkRepository {
@@ -17,7 +16,7 @@ export interface ITalkRepository {
   delete(id: string): Promise<void>;
   getTalkComments(talkId: string): Promise<GetTalkCommentsResponse>;
   createTalkComment(data: CreateTalkCommentDto): Promise<void>;
-  deleteTalkComment(data: DeleteTalkCommentDto): Promise<void>;
+  deleteTalkComment(talkId: string, talkCommentId: string): Promise<void>;
 }
 
 export class PrismaTalkRepository implements ITalkRepository {
@@ -106,9 +105,14 @@ export class PrismaTalkRepository implements ITalkRepository {
     });
   }
 
-  async deleteTalkComment(data: DeleteTalkCommentDto): Promise<void> {
+  async deleteTalkComment(
+    talkCommentId: string,
+    talkId: string
+  ): Promise<void> {
     await prisma.talkComment.delete({
-      where: { id: data.talkCommentId, talkId: data.talkId },
+      where: { id: talkCommentId, talkId },
     });
   }
 }
+
+export const talkRepository = new PrismaTalkRepository();

@@ -1,5 +1,5 @@
 import CreateArticlePage from "@/modules/react/sections/admin/articles/create-article";
 
-export default async function AdminCreateArticle() {
+export default function AdminCreateArticle() {
   return <CreateArticlePage />;
 }

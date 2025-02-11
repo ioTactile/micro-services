@@ -4,7 +4,10 @@ import {
   GetTagsResponse,
   UpdateTagDto,
 } from "@/modules/core/model/Tag";
-import { ITagRepository } from "@/modules/core/repository/tag.repository";
+import {
+  ITagRepository,
+  tagRepository,
+} from "@/modules/core/repository/tag.repository";
 
 export class TagService {
   constructor(private readonly tagRepository: ITagRepository) {}
@@ -29,3 +32,5 @@ export class TagService {
     return await this.tagRepository.delete(id);
   }
 }
+
+export const tagService = new TagService(tagRepository);

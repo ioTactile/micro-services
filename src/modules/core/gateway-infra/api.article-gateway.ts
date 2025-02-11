@@ -1,9 +1,7 @@
 import { IArticleGateway } from "@/modules/core/gateway/article.gateway";
 import {
   CreateArticleDto,
-  CreateOrDeleteArticleLikeDto,
-  DeleteArticleCommentDto,
-  DeleteArticleDto,
+  CreateArticleLikeDto,
   GetArticleCommentsResponse,
   GetArticleResponse,
   GetArticlesResponse,
@@ -34,7 +32,7 @@ export class ApiArticleGateway implements IArticleGateway {
 
   async getArticleComments(id: string): Promise<GetArticleCommentsResponse> {
     const response = await axiosInstance.get<GetArticleCommentsResponse>(
-      `/api/blog/${id}/comments`
+      `/api/blog/${id}/comment`
     );
     return response.data;
   }
@@ -56,11 +54,11 @@ export class ApiArticleGateway implements IArticleGateway {
     return response.data;
   }
 
-  async deleteArticle(article: DeleteArticleDto): Promise<{
+  async deleteArticle(id: string): Promise<{
     message: string;
   }> {
-    const response = await axiosInstance.delete(`/api/blog/${article.id}`, {
-      data: { id: article.id },
+    const response = await axiosInstance.delete(`/api/blog/${id}`, {
+      data: { id },
     });
     return response.data;
   }
@@ -68,44 +66,47 @@ export class ApiArticleGateway implements IArticleGateway {
   async createArticleComment(articleComment: CreateArticleCommentDto): Promise<{
     message: string;
   }> {
-    const response = await axiosInstance.patch(
+    const response = await axiosInstance.post(
       `/api/blog/${articleComment.articleId}/comment`,
       articleComment
     );
     return response.data;
   }
 
-  async deleteArticleComment(articleComment: DeleteArticleCommentDto): Promise<{
+  async deleteArticleComment(
+    articleId: string,
+    articleCommentId: string
+  ): Promise<{
     message: string;
   }> {
     const response = await axiosInstance.delete(
-      `/api/blog/${articleComment.articleId}/comment/${articleComment.articleCommentId}`,
+      `/api/blog/${articleId}/comment/${articleCommentId}`,
       {
-        data: articleComment,
+        data: { articleId, articleCommentId },
       }
     );
     return response.data;
   }
 
-  async createArticleLike(articleLike: CreateOrDeleteArticleLikeDto): Promise<{
+  async createArticleLike(articleLike: CreateArticleLikeDto): Promise<{
     message: string;
   }> {
-    const response = await axiosInstance.patch(
+    const response = await axiosInstance.post(
       `/api/blog/${articleLike.articleId}/like`,
       articleLike
     );
     return response.data;
   }
 
-  async deleteArticleLike(articleLike: CreateOrDeleteArticleLikeDto): Promise<{
+  async deleteArticleLike(
+    articleId: string,
+    userId: string
+  ): Promise<{
     message: string;
   }> {
-    const response = await axiosInstance.delete(
-      `/api/blog/${articleLike.articleId}/like`,
-      {
-        data: articleLike,
-      }
-    );
+    const response = await axiosInstance.delete(`/api/blog/${articleId}/like`, {
+      data: { articleId, userId },
+    });
     return response.data;
   }
 }

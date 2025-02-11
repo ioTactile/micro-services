@@ -11,10 +11,10 @@ export interface ITagGateway {
   createTag: (tag: CreateTagDto) => Promise<{
     message: string;
   }>;
-  deleteTag: (id: string) => Promise<{
+  updateTag: (tag: UpdateTagDto) => Promise<{
     message: string;
   }>;
-  updateTag: (tag: UpdateTagDto) => Promise<{
+  deleteTag: (id: string) => Promise<{
     message: string;
   }>;
 }

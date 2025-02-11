@@ -5,9 +5,7 @@ import {
   GetArticlesResponse,
   UpdateArticleDto,
   CreateArticleCommentDto,
-  CreateOrDeleteArticleLikeDto,
-  DeleteArticleCommentDto,
-  DeleteArticleDto,
+  CreateArticleLikeDto,
 } from "@/modules/core/model/Article";
 
 export interface IArticleGateway {
@@ -21,20 +19,26 @@ export interface IArticleGateway {
   updateArticle: (article: UpdateArticleDto) => Promise<{
     message: string;
   }>;
-  deleteArticle: (article: DeleteArticleDto) => Promise<{
+  deleteArticle: (id: string) => Promise<{
     message: string;
   }>;
   getArticleComments: (id: string) => Promise<GetArticleCommentsResponse>;
   createArticleComment: (articleComment: CreateArticleCommentDto) => Promise<{
     message: string;
   }>;
-  deleteArticleComment: (articleComment: DeleteArticleCommentDto) => Promise<{
+  deleteArticleComment: (
+    articleId: string,
+    articleCommentId: string
+  ) => Promise<{
     message: string;
   }>;
-  createArticleLike: (articleLike: CreateOrDeleteArticleLikeDto) => Promise<{
+  createArticleLike: (articleLike: CreateArticleLikeDto) => Promise<{
     message: string;
   }>;
-  deleteArticleLike: (articleLike: CreateOrDeleteArticleLikeDto) => Promise<{
+  deleteArticleLike: (
+    articleId: string,
+    userId: string
+  ) => Promise<{
     message: string;
   }>;
 }

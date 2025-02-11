@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
-import { PrismaArticleRepository } from "@/modules/core/repository/article.repository";
-import { ArticleService } from "@/modules/core/service/article.service";
+import { articleService } from "@/modules/core/service/article.service";
 import { GetArticleResponse } from "@/modules/core/model/Article";
-
-const articleRepository = new PrismaArticleRepository();
-const articleService = new ArticleService(articleRepository);
 
 export async function GET(
   _request: Request,

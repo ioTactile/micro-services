@@ -44,10 +44,22 @@ describe("ArticleGateway", () => {
       data: mockArticle,
     });
 
-    const result = await articleGateway.getArticle(mockArticle.id);
+    const result = await articleGateway.getArticleById(mockArticle.id);
     expect(result).toEqual(mockArticle);
     expect(axiosInstance.get).toHaveBeenCalledWith(
       `/api/blog/${mockArticle.id}`
+    );
+  });
+
+  it("devrait récupérer un article par son slug", async () => {
+    vi.mocked(axiosInstance.get).mockResolvedValueOnce({
+      data: mockArticle,
+    });
+
+    const result = await articleGateway.getArticleBySlug(mockArticle.slug);
+    expect(result).toEqual(mockArticle);
+    expect(axiosInstance.get).toHaveBeenCalledWith(
+      `/api/blog/${mockArticle.slug}`
     );
   });
 
@@ -95,7 +107,12 @@ describe("ArticleGateway", () => {
     const result = await articleGateway.deleteArticle(mockArticle.id);
     expect(result).toEqual(mockResponse);
     expect(axiosInstance.delete).toHaveBeenCalledWith(
-      `/api/blog/${mockArticle.id}`
+      `/api/blog/${mockArticle.id}`,
+      {
+        data: {
+          id: mockArticle.id,
+        },
+      }
     );
   });
 
@@ -126,13 +143,19 @@ describe("ArticleGateway", () => {
     });
 
     const result = await articleGateway.deleteArticleComment(
-      mockDeleteArticleCommentDto
+      mockDeleteArticleCommentDto.articleId,
+      mockDeleteArticleCommentDto.articleCommentId
     );
     expect(result).toEqual(mockResponse);
 
     expect(axiosInstance.delete).toHaveBeenCalledWith(
       `/api/blog/${mockDeleteArticleCommentDto.articleId}/comment/${mockDeleteArticleCommentDto.articleCommentId}`,
-      mockDeleteArticleCommentDto
+      {
+        data: {
+          articleId: mockDeleteArticleCommentDto.articleId,
+          articleCommentId: mockDeleteArticleCommentDto.articleCommentId,
+        },
+      }
     );
   });
 
@@ -160,10 +183,19 @@ describe("ArticleGateway", () => {
       data: mockResponse,
     });
 
-    const result = await articleGateway.deleteArticleLike(mockArticleLike);
+    const result = await articleGateway.deleteArticleLike(
+      mockArticleLike.articleId,
+      mockArticleLike.userId
+    );
     expect(result).toEqual(mockResponse);
     expect(axiosInstance.delete).toHaveBeenCalledWith(
-      `/api/blog/${mockArticleLike.articleId}/like`
+      `/api/blog/${mockArticleLike.articleId}/like`,
+      {
+        data: {
+          articleId: mockArticleLike.articleId,
+          userId: mockArticleLike.userId,
+        },
+      }
     );
   });
 });

@@ -1,8 +1,10 @@
-import { ITalkRepository } from "@/modules/core/repository/talk.repository";
+import {
+  ITalkRepository,
+  talkRepository,
+} from "@/modules/core/repository/talk.repository";
 import {
   CreateTalkCommentDto,
   CreateTalkDto,
-  DeleteTalkCommentDto,
   GetTalkCommentsResponse,
   GetTalkResponse,
   GetTalksResponse,
@@ -40,7 +42,12 @@ export class TalkService {
     return await this.talkRepository.createTalkComment(data);
   }
 
-  async deleteTalkComment(data: DeleteTalkCommentDto): Promise<void> {
-    return await this.talkRepository.deleteTalkComment(data);
+  async deleteTalkComment(
+    talkId: string,
+    talkCommentId: string
+  ): Promise<void> {
+    return await this.talkRepository.deleteTalkComment(talkId, talkCommentId);
   }
 }
+
+export const talkService = new TalkService(talkRepository);

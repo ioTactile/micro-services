@@ -26,6 +26,14 @@ export class ApTagGateway implements ITagGateway {
     return response.data;
   }
 
+  async updateTag(tag: UpdateTagDto): Promise<{ message: string }> {
+    const response = await axiosInstance.patch<{ message: string }>(
+      `/api/tag/${tag.id}`,
+      tag
+    );
+    return response.data;
+  }
+
   async deleteTag(id: string): Promise<{ message: string }> {
     const response = await axiosInstance.delete<{ message: string }>(
       `/api/tag/${id}`,
@@ -34,14 +42,6 @@ export class ApTagGateway implements ITagGateway {
           id,
         },
       }
-    );
-    return response.data;
-  }
-
-  async updateTag(tag: UpdateTagDto): Promise<{ message: string }> {
-    const response = await axiosInstance.patch<{ message: string }>(
-      `/api/tag/${tag.id}`,
-      tag
     );
     return response.data;
   }

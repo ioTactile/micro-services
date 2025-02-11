@@ -2,7 +2,7 @@ import { Article, ArticleComment, ArticleTag, User } from "@prisma/client";
 import { CreateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/create-article";
 import { UpdateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/update-article";
 import { CreateArticleCommentInputs } from "@/modules/react/sections/articles/_schemas/create-article-comment";
-import { CreateOrDeleteArticleLikeInputs } from "@/modules/react/sections/articles/_schemas/create-article-like";
+import { CreateArticleLikeInputs } from "@/modules/react/sections/articles/_schemas/create-article-like";
 import { DeleteArticleCommentInputs } from "@/modules/react/sections/articles/_schemas/delete-article-comment";
 
 // Create Article
@@ -60,6 +60,10 @@ type ArticleCommentWithRelations = {
 
 export type GetArticleCommentsResponse = ArticleCommentWithRelations[];
 
+// Article Comment
+
+export type GetArticleCommentResponse = ArticleCommentWithRelations;
+
 // Delete Article Comment
 
 export type DeleteArticleCommentDto = DeleteArticleCommentInputs;
@@ -72,4 +76,4 @@ export type DeleteArticleDto = {
 
 // Create/Delete Article Like
 
-export type CreateOrDeleteArticleLikeDto = CreateOrDeleteArticleLikeInputs;
+export type CreateArticleLikeDto = CreateArticleLikeInputs;

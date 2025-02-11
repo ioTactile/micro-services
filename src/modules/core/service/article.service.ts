@@ -1,4 +1,7 @@
-import { IArticleRepository } from "@/modules/core/repository/article.repository";
+import {
+  articleRepository,
+  IArticleRepository,
+} from "@/modules/core/repository/article.repository";
 import {
   CreateArticleCommentDto,
   CreateArticleDto,
@@ -58,3 +61,5 @@ export class ArticleService {
     await this.articleRepository.unlike(articleId, userId);
   }
 }
+
+export const articleService = new ArticleService(articleRepository);

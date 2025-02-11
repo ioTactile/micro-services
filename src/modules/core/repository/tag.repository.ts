@@ -41,3 +41,5 @@ export class PrismaTagRepository implements ITagRepository {
     await prisma.tag.delete({ where: { id } });
   }
 }
+
+export const tagRepository = new PrismaTagRepository();

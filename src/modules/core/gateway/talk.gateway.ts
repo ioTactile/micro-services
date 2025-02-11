@@ -4,7 +4,6 @@ import {
   GetTalksResponse,
   UpdateTalkDto,
   CreateTalkCommentDto,
-  DeleteTalkCommentDto,
   DeleteTalkDto,
 } from "@/modules/core/model/Talk";
 
@@ -23,7 +22,10 @@ export interface ITalkGateway {
   createTalkComment: (talkComment: CreateTalkCommentDto) => Promise<{
     message: string;
   }>;
-  deleteTalkComment: (talkComment: DeleteTalkCommentDto) => Promise<{
+  deleteTalkComment: (
+    talkId: string,
+    talkCommentId: string
+  ) => Promise<{
     message: string;
   }>;
 }

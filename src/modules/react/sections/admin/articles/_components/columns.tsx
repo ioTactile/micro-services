@@ -65,6 +65,11 @@ const ActionCell = ({ article }: { article: Article }) => {
         <DropdownMenuItem asChild>
           <Link href={`/blog/${article.slug}`}>Voir l&apos;article</Link>
         </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={`/admin/articles/${article.id}/comments`}>
+            Voir les commentaires
+          </Link>
+        </DropdownMenuItem>
 
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
@@ -75,7 +80,7 @@ const ActionCell = ({ article }: { article: Article }) => {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="text-red-500 focus:bg-red-500 focus:text-white"
-          onClick={() => deleteArticleMutation.mutate({ id: article.id })}
+          onClick={() => deleteArticleMutation.mutate(article.id)}
         >
           Supprimer
         </DropdownMenuItem>
