@@ -17,7 +17,7 @@ import {
 } from "@/app/_components/ui/form";
 import { Textarea } from "@/app/_components/ui/textarea";
 import { Button } from "@/app/_components/ui/button";
-import { useUserStore } from "@/modules/core/store/store";
+import { useAuthAction } from "@/app/_hooks/use-auth-action";
 
 const ArticleCommentForm = () => {
   const { id } = useParams();
@@ -37,36 +37,36 @@ const ArticleCommentForm = () => {
     reset,
   } = form;
 
-  const { user } = useUserStore();
-
   const router = useRouter();
 
   const createArticleCommentMutation = useCreateArticleComment();
 
+  const { handleAuthAction } = useAuthAction();
+
   const handleCreateArticleCommentSubmit: SubmitHandler<
     CreateArticleCommentInputs
   > = (data) => {
-    if (!user) return;
+    handleAuthAction((user) => {
+      const articleComment = {
+        content: data.content,
+      };
 
-    const articleComment = {
-      content: data.content,
-    };
-
-    createArticleCommentMutation.mutate(
-      {
-        ...articleComment,
-        authorId: user.id,
-        articleId: id as string,
-        replyToId: null,
-        replyToUserId: null,
-      },
-      {
-        onSuccess: () => {
-          reset();
-          router.push(`/admin/articles/${id as string}/comments`);
+      createArticleCommentMutation.mutate(
+        {
+          ...articleComment,
+          authorId: user.id,
+          articleId: id as string,
+          replyToId: null,
+          replyToUserId: null,
         },
-      }
-    );
+        {
+          onSuccess: () => {
+            reset();
+            router.push(`/admin/articles/${id as string}/comments`);
+          },
+        }
+      );
+    });
   };
 
   return (

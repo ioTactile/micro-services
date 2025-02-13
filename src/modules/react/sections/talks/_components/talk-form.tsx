@@ -18,7 +18,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/app/_components/ui/form";
-import { useUserStore } from "@/modules/core/store/store";
+import { useAuthAction } from "@/app/_hooks/use-auth-action";
 
 const TalkForm = () => {
   const form = useForm<CreateTalkInputs>({
@@ -38,23 +38,23 @@ const TalkForm = () => {
     watch,
   } = form;
 
-  const { user } = useUserStore();
-
   const createTalkMutation = useCreateTalk();
 
+  const { handleAuthAction } = useAuthAction();
+
   const handleCreateTalkSubmit: SubmitHandler<CreateTalkInputs> = (data) => {
-    if (!user) return;
+    handleAuthAction((user) => {
+      const talk = {
+        title: data.title,
+        content: data.content || null,
+        authorId: user.id,
+      };
 
-    const talk = {
-      title: data.title,
-      content: data.content || null,
-      authorId: user.id,
-    };
-
-    createTalkMutation.mutate(talk, {
-      onSuccess: () => {
-        reset();
-      },
+      createTalkMutation.mutate(talk, {
+        onSuccess: () => {
+          reset();
+        },
+      });
     });
   };
 

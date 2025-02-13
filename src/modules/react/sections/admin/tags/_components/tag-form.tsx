@@ -20,7 +20,7 @@ import { useUpdateTag } from "@/modules/core/mutations/useUpdateTag";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { GetTagResponse } from "@/modules/core/model/Tag";
-import { useUserStore } from "@/modules/core/store/store";
+import { useAuthAction } from "@/app/_hooks/use-auth-action";
 
 interface TagFormProps {
   mode: "create" | "update";
@@ -50,43 +50,43 @@ const TagForm = ({ mode, initialData }: TagFormProps) => {
     }
   }, [initialData, setValue]);
 
-  const { user } = useUserStore();
-
   const router = useRouter();
 
   const updateTagMutation = useUpdateTag();
   const createTagMutation = useCreateTag();
 
+  const { handleAuthAction } = useAuthAction();
+
   const handleCreateOrUpdateTagSubmit: SubmitHandler<CreateTagInputs> = (
     data
   ) => {
-    if (!user) return;
+    handleAuthAction(() => {
+      const tag = {
+        name: data.name,
+      };
 
-    const tag = {
-      name: data.name,
-    };
-
-    if (mode === "create") {
-      createTagMutation.mutate(tag, {
-        onSuccess: () => {
-          reset();
-          router.push("/admin/tags");
-        },
-      });
-    } else {
-      updateTagMutation.mutate(
-        {
-          id: initialData!.id,
-          name: data.name,
-          updatedAt: new Date(),
-        },
-        {
+      if (mode === "create") {
+        createTagMutation.mutate(tag, {
           onSuccess: () => {
             reset();
+            router.push("/admin/tags");
           },
-        }
-      );
-    }
+        });
+      } else {
+        updateTagMutation.mutate(
+          {
+            id: initialData!.id,
+            name: data.name,
+            updatedAt: new Date(),
+          },
+          {
+            onSuccess: () => {
+              reset();
+            },
+          }
+        );
+      }
+    });
   };
 
   return (

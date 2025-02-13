@@ -8,9 +8,8 @@ import { Heart, MessageCircle, Share2 } from "lucide-react";
 import { useShare } from "@/app/_hooks/use-share";
 import Tags from "@/modules/react/sections/_components/tags";
 import Image from "next/image";
-import { useUserStore } from "@/modules/core/store/store";
 import useArticleLike from "@/modules/react/sections/articles/_hooks/use-article-like";
-import getArticleLikeStatus from "@/modules/react/sections/articles/_helpers/get-article-like-status";
+import useArticleLikeStatus from "@/modules/react/sections/articles/_hooks/use-article-like-status";
 
 interface ArticleCardProps {
   article: GetArticleResponse;
@@ -19,9 +18,8 @@ interface ArticleCardProps {
 const ArticleCard = ({ article }: ArticleCardProps) => {
   const router = useRouter();
   const { handleShare } = useShare();
-  const { user } = useUserStore();
-  const { isLiked, likesCount } = getArticleLikeStatus(article, user?.id);
-  const { handletoggleLike } = useArticleLike(article.id, isLiked, user?.id);
+  const { isLiked, likesCount } = useArticleLikeStatus(article);
+  const { handletoggleLike } = useArticleLike(article.id, isLiked);
 
   return (
     <div

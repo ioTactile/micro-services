@@ -28,7 +28,7 @@ import { useCreateArticle } from "@/modules/core/mutations/useCreateArticle";
 import { GetArticleResponse } from "@/modules/core/model/Article";
 import { useRouter } from "next/navigation";
 import MultiSelectTags from "@/modules/react/sections/admin/articles/_components/multi-select-tags";
-import { useUserStore } from "@/modules/core/store/store";
+import { useAuthAction } from "@/app/_hooks/use-auth-action";
 
 interface ArticleFormProps {
   mode: "create" | "update";
@@ -79,56 +79,56 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     }
   }, [initialData, setValue]);
 
-  const { user } = useUserStore();
-
   const router = useRouter();
 
   const updateArticleMutation = useUpdateArticle();
   const createArticleMutation = useCreateArticle();
 
+  const { handleAuthAction } = useAuthAction();
+
   const handleCreateArticleSubmit: SubmitHandler<CreateArticleInputs> = (
     data
   ) => {
-    if (!user) return;
+    handleAuthAction((user) => {
+      const article = {
+        title: data.title,
+        content: data.content,
+        imageUrl: data.imageUrl || null,
+        imageName: data.imageName || null,
+        excerpt: data.excerpt || null,
+        published: data.published,
+        articleTags: data.articleTags,
+      };
 
-    const article = {
-      title: data.title,
-      content: data.content,
-      imageUrl: data.imageUrl || null,
-      imageName: data.imageName || null,
-      excerpt: data.excerpt || null,
-      published: data.published,
-      articleTags: data.articleTags,
-    };
-
-    if (mode === "create") {
-      createArticleMutation.mutate(
-        {
-          ...article,
-          authorId: user.id,
-        },
-        {
-          onSuccess: () => {
-            reset();
-            router.push("/admin/articles");
+      if (mode === "create") {
+        createArticleMutation.mutate(
+          {
+            ...article,
+            authorId: user.id,
           },
-        }
-      );
-    } else {
-      updateArticleMutation.mutate(
-        {
-          ...article,
-          id: initialData!.id,
-          updatedAt: new Date(),
-        },
-        {
-          onSuccess: () => {
-            reset();
-            router.push("/admin/articles");
+          {
+            onSuccess: () => {
+              reset();
+              router.push("/admin/articles");
+            },
+          }
+        );
+      } else {
+        updateArticleMutation.mutate(
+          {
+            ...article,
+            id: initialData!.id,
+            updatedAt: new Date(),
           },
-        }
-      );
-    }
+          {
+            onSuccess: () => {
+              reset();
+              router.push("/admin/articles");
+            },
+          }
+        );
+      }
+    });
   };
 
   const [titleSize, setTitleSize] = useState<number>(0);

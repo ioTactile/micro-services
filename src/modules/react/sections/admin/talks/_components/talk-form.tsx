@@ -19,7 +19,7 @@ import { useUpdateTalk } from "@/modules/core/mutations/useUpdateTalk";
 import { useCreateTalk } from "@/modules/core/mutations/useCreateTalk";
 import { GetTalkResponse } from "@/modules/core/model/Talk";
 import { useRouter } from "next/navigation";
-import { useUserStore } from "@/modules/core/store/store";
+import { useAuthAction } from "@/app/_hooks/use-auth-action";
 
 interface TalkFormProps {
   mode: "create" | "update";
@@ -52,49 +52,49 @@ const TalkForm = ({ mode, initialData }: TalkFormProps) => {
     }
   }, [initialData, setValue]);
 
-  const { user } = useUserStore();
-
   const router = useRouter();
 
   const updateTalkMutation = useUpdateTalk();
   const createTalkMutation = useCreateTalk();
 
+  const { handleAuthAction } = useAuthAction();
+
   const handleCreateTalkSubmit: SubmitHandler<CreateTalkInputs> = (data) => {
-    if (!user) return;
+    handleAuthAction((user) => {
+      const talk = {
+        title: data.title,
+        content: data.content,
+      };
 
-    const talk = {
-      title: data.title,
-      content: data.content,
-    };
-
-    if (mode === "create") {
-      createTalkMutation.mutate(
-        {
-          ...talk,
-          authorId: user.id,
-        },
-        {
-          onSuccess: () => {
-            reset();
-            router.push("/admin/talks");
+      if (mode === "create") {
+        createTalkMutation.mutate(
+          {
+            ...talk,
+            authorId: user.id,
           },
-        }
-      );
-    } else {
-      updateTalkMutation.mutate(
-        {
-          ...talk,
-          id: initialData!.id,
-          updatedAt: new Date(),
-        },
-        {
-          onSuccess: () => {
-            reset();
-            router.push("/admin/talks");
+          {
+            onSuccess: () => {
+              reset();
+              router.push("/admin/talks");
+            },
+          }
+        );
+      } else {
+        updateTalkMutation.mutate(
+          {
+            ...talk,
+            id: initialData!.id,
+            updatedAt: new Date(),
           },
-        }
-      );
-    }
+          {
+            onSuccess: () => {
+              reset();
+              router.push("/admin/talks");
+            },
+          }
+        );
+      }
+    });
   };
 
   const [titleSize, setTitleSize] = useState<number>(0);

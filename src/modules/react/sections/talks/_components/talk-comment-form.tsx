@@ -15,7 +15,7 @@ import {
 import { Textarea } from "@/app/_components/ui/textarea";
 import { Button } from "@/app/_components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUserStore } from "@/modules/core/store/store";
+import { useAuthAction } from "@/app/_hooks/use-auth-action";
 
 interface TalkCommentFormProps {
   talkId: string;
@@ -46,28 +46,31 @@ const TalkCommentForm = ({
     reset,
   } = form;
 
-  const { user } = useUserStore();
-
   const createTalkCommentMutation = useCreateTalkComment();
+
+  const { handleAuthAction } = useAuthAction();
 
   const handleCreateTalkCommentSubmit: SubmitHandler<
     CreateTalkCommentInputs
   > = (data) => {
-    if (!user) return;
+    handleAuthAction((user) => {
+      const talkComment = {
+        content: data.content,
+        authorId: user.id,
+        talkId: talkId,
+        replyToId: replyToId,
+        replyToUserId: replyToUserId,
+      };
 
-    const talkComment = {
-      content: data.content,
-      authorId: user.id,
-      talkId: talkId,
-      replyToId: replyToId,
-      replyToUserId: replyToUserId,
-    };
+      createTalkCommentMutation.mutate(talkComment, {
+        onSuccess: () => {
+          reset();
+        },
+      });
 
-    createTalkCommentMutation.mutate(talkComment);
-    reset();
-
-    if (isExpanded) setIsExpanded(false);
-    if (onCancel) onCancel();
+      if (isExpanded) setIsExpanded(false);
+      if (onCancel) onCancel();
+    });
   };
 
   const [isExpanded, setIsExpanded] = React.useState<boolean>(false);
