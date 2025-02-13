@@ -10,24 +10,24 @@ body {
   :root {
     --background: 40 33% 98%; /* Beige clair */
     --foreground: 30 15% 15%; /* Brun foncé */
-    --card: 40 33% 98%;
-    --card-foreground: 30 15% 15%;
-    --popover: 40 33% 98%;
-    --popover-foreground: 30 15% 15%;
+    --card: 40 33% 98%; /* Beige clair */
+    --card-foreground: 30 15% 15%; /* Brun foncé */
+    --popover: 40 33% 98%; /* Beige clair */
+    --popover-foreground: 30 15% 15%; /* Brun foncé */
     --primary: 124 30% 35%; /* Vert forêt */
-    --primary-foreground: 40 33% 98%;
+    --primary-foreground: 40 33% 98%; /* Beige clair */
     --secondary: 26 40% 80%; /* Beige sable */
-    --secondary-foreground: 30 15% 15%;
-    --muted: 26 40% 90%;
-    --muted-foreground: 30 15% 40%;
+    --secondary-foreground: 30 15% 15%; /* Brun foncé */
+    --muted: 26 40% 90%; /* Beige sable */
+    --muted-foreground: 30 15% 40%; /* Brun foncé */
     --accent: 35 40% 70%; /* Brun clair */
-    --accent-foreground: 30 15% 15%;
-    --destructive: 0 60% 50%;
-    --destructive-foreground: 40 33% 98%;
-    --border: 30 15% 85%;
-    --input: 30 15% 85%;
-    --ring: 124 30% 35%;
-    --chart-1: 124 30% 45%; /* Vert */
+    --accent-foreground: 30 15% 15%; /* Brun foncé */
+    --destructive: 0 60% 50%; /* Rouge */
+    --destructive-foreground: 40 33% 98%; /* Beige clair */
+    --border: 30 15% 85%; /* Beige sable */
+    --input: 30 15% 85%; /* Beige sable */
+    --ring: 124 30% 35%; /* Vert forêt */
+    --chart-1: 124 30% 45%; /* Vert forêt */
     --chart-2: 35 40% 60%; /* Brun */
     --chart-3: 15 30% 40%; /* Roche */
     --chart-4: 45 60% 65%; /* Sable */
@@ -47,23 +47,23 @@ body {
   .dark {
     --background: 30 15% 10%; /* Brun très foncé */
     --foreground: 40 33% 98%; /* Beige clair */
-    --card: 30 15% 10%;
-    --card-foreground: 40 33% 98%;
-    --popover: 30 15% 10%;
-    --popover-foreground: 40 33% 98%;
+    --card: 30 15% 10%; /* Brun très foncé */
+    --card-foreground: 40 33% 98%; /* Beige clair */
+    --popover: 30 15% 10%; /* Brun très foncé */
+    --popover-foreground: 40 33% 98%; /* Beige clair */
     --primary: 124 25% 45%; /* Vert forêt plus lumineux */
-    --primary-foreground: 40 33% 98%;
+    --primary-foreground: 40 33% 98%; /* Beige clair */
     --secondary: 26 20% 25%; /* Brun foncé */
-    --secondary-foreground: 40 33% 98%;
-    --muted: 26 20% 20%;
-    --muted-foreground: 26 20% 75%;
+    --secondary-foreground: 40 33% 98%; /* Beige clair */
+    --muted: 26 20% 20%; /* Brun foncé */
+    --muted-foreground: 26 20% 75%; /* Brun foncé */
     --accent: 35 25% 30%; /* Brun moyen */
-    --accent-foreground: 40 33% 98%;
-    --destructive: 0 60% 40%;
-    --destructive-foreground: 40 33% 98%;
-    --border: 30 15% 25%;
-    --input: 30 15% 25%;
-    --ring: 124 25% 45%;
+    --accent-foreground: 40 33% 98%; /* Beige clair */
+    --destructive: 0 60% 40%; /* Rouge */
+    --destructive-foreground: 40 33% 98%; /* Beige clair */
+    --border: 30 15% 25%; /* Brun foncé */
+    --input: 30 15% 25%; /* Brun foncé */
+    --ring: 124 25% 45%; /* Vert forêt */
     --chart-1: 124 35% 45%; /* Vert forêt */
     --chart-2: 35 35% 45%; /* Brun terre */
     --chart-3: 15 25% 35%; /* Roche sombre */

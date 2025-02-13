@@ -16,9 +16,14 @@ export function useDeleteArticleLike() {
       if (error) {
         console.error(error);
       } else {
-        await queryClient.invalidateQueries({
-          queryKey: ["articles", variables.articleId],
-        });
+        await Promise.all([
+          queryClient.invalidateQueries({
+            queryKey: ["articles", variables.articleId],
+          }),
+          queryClient.invalidateQueries({
+            queryKey: ["articles"],
+          }),
+        ]);
       }
     },
   });

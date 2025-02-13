@@ -15,8 +15,8 @@ import {
 export class ArticleService {
   constructor(private readonly articleRepository: IArticleRepository) {}
 
-  async getArticles(): Promise<GetArticlesResponse> {
-    return await this.articleRepository.findMany();
+  async getArticles(userId?: string): Promise<GetArticlesResponse> {
+    return await this.articleRepository.findMany(userId);
   }
 
   async getArticleById(id: string): Promise<GetArticleResponse | null> {

@@ -41,7 +41,7 @@ export default async function RootLayout({
           height={3}
         />
 
-        <ClerkProvider>
+        <ClerkProvider signInUrl="/auth/sign-in" signUpUrl="/auth/sign-up">
           <ReactQueryClientProvider>
             <ThemeProvider
               attribute="class"

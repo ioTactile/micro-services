@@ -2,7 +2,6 @@
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUser } from "@clerk/nextjs";
 import { useParams, useRouter } from "next/navigation";
 import {
   createArticleCommentSchema,
@@ -18,6 +17,7 @@ import {
 } from "@/app/_components/ui/form";
 import { Textarea } from "@/app/_components/ui/textarea";
 import { Button } from "@/app/_components/ui/button";
+import { useUserStore } from "@/modules/core/store/store";
 
 const ArticleCommentForm = () => {
   const { id } = useParams();
@@ -37,7 +37,7 @@ const ArticleCommentForm = () => {
     reset,
   } = form;
 
-  const { user } = useUser();
+  const { user } = useUserStore();
 
   const router = useRouter();
 

@@ -12,7 +12,7 @@ import {
 } from "@/modules/core/model/Article";
 
 export interface IArticleRepository {
-  findMany(): Promise<GetArticlesResponse>;
+  findMany(userId?: string): Promise<GetArticlesResponse>;
   findBySlug(slug: string): Promise<GetArticleResponse | null>;
   findById(id: string): Promise<GetArticleResponse | null>;
   create(data: CreateArticleDto): Promise<void>;
@@ -26,7 +26,7 @@ export interface IArticleRepository {
 }
 
 export class PrismaArticleRepository implements IArticleRepository {
-  async findMany(): Promise<GetArticlesResponse> {
+  async findMany(userId?: string): Promise<GetArticlesResponse> {
     return await prisma.article.findMany({
       include: {
         author: true,
@@ -39,6 +39,16 @@ export class PrismaArticleRepository implements IArticleRepository {
             },
           },
         },
+        articleLikes: userId
+          ? {
+              select: {
+                userId: true,
+              },
+              where: {
+                userId: userId,
+              },
+            }
+          : false,
         _count: {
           select: {
             articleComments: true,
@@ -53,7 +63,6 @@ export class PrismaArticleRepository implements IArticleRepository {
   }
 
   async findBySlug(slug: string): Promise<GetArticleResponse | null> {
-    console.log("slug", slug);
     return await prisma.article.findUnique({
       where: { slug: slug },
       include: {
@@ -65,6 +74,11 @@ export class PrismaArticleRepository implements IArticleRepository {
                 name: true,
               },
             },
+          },
+        },
+        articleLikes: {
+          select: {
+            userId: true,
           },
         },
         _count: {
@@ -89,6 +103,11 @@ export class PrismaArticleRepository implements IArticleRepository {
                 name: true,
               },
             },
+          },
+        },
+        articleLikes: {
+          select: {
+            userId: true,
           },
         },
         _count: {

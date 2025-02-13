@@ -4,7 +4,6 @@ import { Textarea } from "@/app/_components/ui/textarea";
 import { Button } from "@/app/_components/ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUser } from "@clerk/nextjs";
 import {
   createArticleSchema,
   CreateArticleInputs,
@@ -29,6 +28,7 @@ import { useCreateArticle } from "@/modules/core/mutations/useCreateArticle";
 import { GetArticleResponse } from "@/modules/core/model/Article";
 import { useRouter } from "next/navigation";
 import MultiSelectTags from "@/modules/react/sections/admin/articles/_components/multi-select-tags";
+import { useUserStore } from "@/modules/core/store/store";
 
 interface ArticleFormProps {
   mode: "create" | "update";
@@ -79,7 +79,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     }
   }, [initialData, setValue]);
 
-  const { user } = useUser();
+  const { user } = useUserStore();
 
   const router = useRouter();
 

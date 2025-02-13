@@ -1,5 +1,4 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useUser } from "@clerk/nextjs";
 import { useCreateTalkComment } from "@/modules/core/mutations/useCreateTalkComment";
 import * as React from "react";
 import {
@@ -16,6 +15,7 @@ import {
 import { Textarea } from "@/app/_components/ui/textarea";
 import { Button } from "@/app/_components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useUserStore } from "@/modules/core/store/store";
 
 interface TalkCommentFormProps {
   talkId: string;
@@ -46,7 +46,7 @@ const TalkCommentForm = ({
     reset,
   } = form;
 
-  const { user } = useUser();
+  const { user } = useUserStore();
 
   const createTalkCommentMutation = useCreateTalkComment();
 

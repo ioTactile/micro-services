@@ -26,6 +26,9 @@ type ArticleWithRelations = {
       name: string;
     };
   })[];
+  articleLikes?: {
+    userId: string;
+  }[];
   _count: {
     articleComments: number;
     articleLikes: number;

@@ -4,7 +4,6 @@ import { Input } from "@/app/_components/ui/input";
 import { Button } from "@/app/_components/ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUser } from "@clerk/nextjs";
 import {
   CreateTagInputs,
   createTagSchema,
@@ -21,6 +20,7 @@ import { useUpdateTag } from "@/modules/core/mutations/useUpdateTag";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { GetTagResponse } from "@/modules/core/model/Tag";
+import { useUserStore } from "@/modules/core/store/store";
 
 interface TagFormProps {
   mode: "create" | "update";
@@ -50,7 +50,7 @@ const TagForm = ({ mode, initialData }: TagFormProps) => {
     }
   }, [initialData, setValue]);
 
-  const { user } = useUser();
+  const { user } = useUserStore();
 
   const router = useRouter();
 

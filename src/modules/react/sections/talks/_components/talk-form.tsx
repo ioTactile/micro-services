@@ -4,7 +4,6 @@ import { Textarea } from "@/app/_components/ui/textarea";
 import { Button } from "@/app/_components/ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUser } from "@clerk/nextjs";
 import { useCreateTalk } from "@/modules/core/mutations/useCreateTalk";
 import {
   createTalkSchema,
@@ -19,6 +18,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/app/_components/ui/form";
+import { useUserStore } from "@/modules/core/store/store";
 
 const TalkForm = () => {
   const form = useForm<CreateTalkInputs>({
@@ -38,7 +38,7 @@ const TalkForm = () => {
     watch,
   } = form;
 
-  const { user } = useUser();
+  const { user } = useUserStore();
 
   const createTalkMutation = useCreateTalk();
 

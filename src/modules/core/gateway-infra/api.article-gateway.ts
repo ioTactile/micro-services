@@ -11,8 +11,12 @@ import { CreateArticleCommentDto } from "@/modules/core/model/Article";
 import { axiosInstance } from "@/lib/globals";
 
 export class ApiArticleGateway implements IArticleGateway {
-  async getArticles(): Promise<GetArticlesResponse> {
-    const response = await axiosInstance.get<GetArticlesResponse>("/api/blog");
+  async getArticles(userId?: string): Promise<GetArticlesResponse> {
+    const response = await axiosInstance.get<GetArticlesResponse>("/api/blog", {
+      params: {
+        userId,
+      },
+    });
     return response.data;
   }
 

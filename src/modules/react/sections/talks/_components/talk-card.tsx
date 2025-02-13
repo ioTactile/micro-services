@@ -18,10 +18,10 @@ const TalkCard = ({ talk }: TalkCardProps) => {
 
   return (
     <div
-      className="flex flex-col gap-2 bg-card rounded-xl text-card-foreground px-4 py-1 my-1 cursor-pointer hover:bg-accent/20 transition-all duration-300"
+      className="flex flex-col gap-3 bg-card rounded-xl text-card-foreground px-4 py-1 my-1 cursor-pointer hover:bg-accent/20 transition-all duration-300"
       onClick={() => router.push(`/talks/${talk.id}/${talk.title}`)}
     >
-      <div className="flex items-center gap-1 text-xs">
+      <div className="flex items-center gap-2 text-xs">
         <Avatar
           alt={talk.author.name}
           src={talk.author.imageUrl}
@@ -39,13 +39,13 @@ const TalkCard = ({ talk }: TalkCardProps) => {
         </span>
       </div>
 
-      <span className="text-lg font-semibold">{talk.title}</span>
+      <h2 className="text-lg font-semibold">{talk.title}</h2>
 
-      <p>{talk.content}</p>
+      <p className="text-muted-foreground">{talk.content}</p>
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-3">
         <Button variant="outline" size="sm" className="rounded-full">
-          <MessageCircle className="w-4 h-4" />
+          <MessageCircle className="w-4 h-4 mr-1" />
           {talk._count.talkComments}
         </Button>
         <Button
@@ -60,7 +60,7 @@ const TalkCard = ({ talk }: TalkCardProps) => {
             )
           }
         >
-          <Share2 className="w-4 h-4" />
+          <Share2 className="w-4 h-4 mr-1" />
           Partager
         </Button>
       </div>

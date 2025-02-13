@@ -4,7 +4,6 @@ import { Textarea } from "@/app/_components/ui/textarea";
 import { Button } from "@/app/_components/ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUser } from "@clerk/nextjs";
 import { CreateTalkInputs } from "@/modules/react/sections/talks/_schemas/create-talk";
 import { createTalkSchema } from "@/modules/react/sections/talks/_schemas/create-talk";
 import { useEffect, useState } from "react";
@@ -20,6 +19,7 @@ import { useUpdateTalk } from "@/modules/core/mutations/useUpdateTalk";
 import { useCreateTalk } from "@/modules/core/mutations/useCreateTalk";
 import { GetTalkResponse } from "@/modules/core/model/Talk";
 import { useRouter } from "next/navigation";
+import { useUserStore } from "@/modules/core/store/store";
 
 interface TalkFormProps {
   mode: "create" | "update";
@@ -52,7 +52,7 @@ const TalkForm = ({ mode, initialData }: TalkFormProps) => {
     }
   }, [initialData, setValue]);
 
-  const { user } = useUser();
+  const { user } = useUserStore();
 
   const router = useRouter();
 

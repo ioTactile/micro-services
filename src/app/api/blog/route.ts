@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { articleService } from "@/modules/core/service/article.service";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const articles = await articleService.getArticles();
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("userId") ?? undefined;
+    const articles = await articleService.getArticles(userId);
     return NextResponse.json(articles, { status: 200 });
   } catch (error) {
     return NextResponse.json(

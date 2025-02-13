@@ -5,15 +5,16 @@ import { useUser } from "@clerk/nextjs";
 import { useEffect } from "react";
 
 const StoreInitializer = () => {
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const setUser = useUserStore((state) => state.setUser);
+  const setIsLoaded = useUserStore((state) => state.setIsLoaded);
 
   useEffect(() => {
     if (user) {
-      console.log("user", user);
       setUser(user);
     }
-  }, [user, setUser]);
+    setIsLoaded(isLoaded);
+  }, [user, setUser, isLoaded, setIsLoaded]);
 
   return null;
 };

@@ -7,6 +7,10 @@ import { Button } from "@/app/_components/ui/button";
 import { Heart, MessageCircle, Share2 } from "lucide-react";
 import { useShare } from "@/app/_hooks/use-share";
 import Tags from "@/modules/react/sections/_components/tags";
+import Image from "next/image";
+import { useUserStore } from "@/modules/core/store/store";
+import useArticleLike from "@/modules/react/sections/articles/_hooks/use-article-like";
+import getArticleLikeStatus from "@/modules/react/sections/articles/_helpers/get-article-like-status";
 
 interface ArticleCardProps {
   article: GetArticleResponse;
@@ -14,62 +18,94 @@ interface ArticleCardProps {
 
 const ArticleCard = ({ article }: ArticleCardProps) => {
   const router = useRouter();
-
   const { handleShare } = useShare();
+  const { user } = useUserStore();
+  const { isLiked, likesCount } = getArticleLikeStatus(article, user?.id);
+  const { handletoggleLike } = useArticleLike(article.id, isLiked, user?.id);
 
   return (
     <div
-      className="flex flex-col gap-2 bg-card rounded-xl text-card-foreground px-4 py-1 my-1 cursor-pointer hover:bg-accent/20 transition-all duration-300"
+      className="flex flex-col bg-card rounded-xl text-card-foreground overflow-hidden hover:bg-secondary/20 transition-all duration-300 cursor-pointer"
       onClick={() => router.push(`/blog/${article.slug}`)}
     >
-      <div className="flex items-center gap-1 text-xs">
-        <Avatar
-          alt={article.author.name}
-          src={article.author.imageUrl}
-          className="w-6 h-6"
-        />
-
-        <span className="font-bold">
-          {getCapitalize(article.author.name ?? "")}
-        </span>
-
-        <span>•</span>
-
-        <span className="text-muted-foreground">
-          il y a {getTimeBetweenDateAndNow(article.updatedAt)}
-        </span>
+      <div className="relative w-full aspect-video">
+        {article.imageUrl ? (
+          <Image
+            src={article.imageUrl}
+            alt={article.imageName ?? article.title}
+            className="object-cover"
+            fill
+          />
+        ) : (
+          <Image
+            src="/assets/vertical-sync.png"
+            alt="vertical-sync"
+            className="object-cover"
+            fill
+          />
+        )}
       </div>
 
-      <span className="text-lg font-semibold">{article.title}</span>
+      <div className="flex flex-col gap-3 p-4">
+        <div className="flex items-center gap-2 text-sm">
+          <Avatar
+            alt={article.author.name}
+            src={article.author.imageUrl}
+            className="w-6 h-6"
+          />
+          <span className="font-bold">
+            {getCapitalize(article.author.name ?? "")}
+          </span>
+          <span>•</span>
+          <span className="text-muted-foreground">
+            il y a {getTimeBetweenDateAndNow(article.updatedAt)}
+          </span>
+        </div>
 
-      <p>{article.excerpt}</p>
+        <h2 className="text-xl font-semibold">{article.title}</h2>
 
-      <Tags tags={article.articleTags} />
+        <p className="text-muted-foreground">{article.excerpt}</p>
 
-      <div className="flex items-center gap-3">
-        <Button variant="outline" size="sm" className="rounded-full">
-          <Heart className="w-4 h-4" />
-          {article._count.articleLikes}
-        </Button>
-        <Button variant="outline" size="sm" className="rounded-full">
-          <MessageCircle className="w-4 h-4" />
-          {article._count.articleComments}
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          className="rounded-full"
-          onClick={(e) =>
-            handleShare(
-              `${window.location.origin}/blog/${article.slug}`,
-              "Le lien a été copié dans le presse-papiers",
-              e
-            )
-          }
-        >
-          <Share2 className="w-4 h-4" />
-          Partager
-        </Button>
+        <Tags tags={article.articleTags} />
+
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            className={`rounded-full ${
+              isLiked ? "bg-primary/20" : ""
+            } hover:bg-primary/40`}
+            onClick={handletoggleLike}
+          >
+            <Heart
+              className={`w-4 h-4 mr-1 ${isLiked ? "fill-current" : ""}`}
+            />
+            {likesCount}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full hover:bg-primary/40"
+          >
+            <MessageCircle className="w-4 h-4 mr-1" />
+            {article._count.articleComments}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full hover:bg-primary/40"
+            onClick={(e) =>
+              handleShare(
+                `${window.location.origin}/blog/${article.slug}`,
+                "Le lien a été copié dans le presse-papiers",
+                e
+              )
+            }
+          >
+            <Share2 className="w-4 h-4 mr-1" />
+            Partager
+          </Button>
+        </div>
       </div>
     </div>
   );
